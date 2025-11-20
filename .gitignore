@@ -1,0 +1,40 @@
+# Node / package managers
+node_modules/
+
+# Build outputs
+dist/
+build/
+.out/
+.next/
+.cache/
+.temp/
+tmp/
+
+# Environment / secrets
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code / IDE
+.vscode/
+.idea/
+*.iml
+
+# Misc
+*.local
+
+*.env
+
+CV_PamuduRanasinghe.pdf
+
+# Python bytecode
+**/__pycache__/
