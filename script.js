@@ -499,6 +499,8 @@ function setupChat() {
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
   const messages = document.getElementById('chat-messages');
+  const toggleBtn = document.getElementById('chat-toggle');
+
   if (!widget || !header || !input || !sendBtn || !messages) return;
 
   const CHAT_API =
@@ -507,9 +509,28 @@ function setupChat() {
 
   let sessionId = null;
 
+  function toggleChat(e) {
+    if (e) e.preventDefault();
+    const isOpen = widget.classList.contains('open');
+    
+    if (isOpen) {
+        widget.classList.remove('open');
+        document.body.classList.remove('chat-open');
+    } else {
+        widget.classList.add('open');
+        document.body.classList.add('chat-open');
+    }
+  }
+
+  // Header click closes the chat
   header.addEventListener('click', () => {
-    widget.classList.toggle('open');
+    widget.classList.remove('open');
+    document.body.classList.remove('chat-open');
   });
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', toggleChat);
+  }
 
   async function sendMessage() {
     const text = input.value.trim();
