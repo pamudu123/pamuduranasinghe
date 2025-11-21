@@ -35,6 +35,7 @@ desktop.ini
 *.env
 
 CV_PamuduRanasinghe.pdf
+backend/cv_data.json
 
 # Python bytecode
 **/__pycache__/
