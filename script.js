@@ -24,28 +24,34 @@ const CV_DATA = {
       role: 'Lead AI Engineer',
       company: 'CreditSource',
       companyLink: 'https://creditsource.com.au/',
-      location: 'AUS',
+      location: 'Australia',
       period: 'Aug 2025 - Present',
-      details: ['Leading AI initiatives to deliver machine learning solutions for the financial domain.']
+      details: ['Leading the AI team to build machine learning solutions for credit risk and financial document processing.']
     },
     {
       role: 'Software Engineer (AI/ML)',
       company: [
         { text: 'UnitedHealth Group', link: 'https://www.unitedhealthgroup.com/' },
-        ' via ',
-        { text: 'Virtusa', link: 'https://www.virtusa.com/' }
+        ' (via ',
+        { text: 'Virtusa', link: 'https://www.virtusa.com/' },
+        ')'
       ],
       location: 'USA',
       period: 'Jul 2024 - Aug 2025',
       details: [
-        'Developed Advocate Assist to process 10M+ daily interactions with document intelligence for RAG.',
+        [
+          'Worked with the core team to build ',
+          { text: 'Advocate Assist', link: 'https://www.unitedhealthgroup.com/uhg/what-we-do/artificial-intelligence.html' },
+          ', handling 10M+ daily interactions.'
+        ],
+        'Built a document parser for tables and text, contributing to a patent.',
+        'Created an internal MCP server unifying services into a reusable platform with authentication and modular design.',
         'Designed metric-driven, agentic workflows using LLM judges to evaluate response quality and relevance.',
-        'Automated evaluation pipelines with Jenkins and GitHub Actions for regression testing.',
-        'Built microservices on GCP with Terraform and Docker, including BigQuery natural language querying.'
+        'Aligned model-based evaluations with human review, reducing manual effort on complex queries.'
       ]
     },
     {
-      role: 'Freelance Consultant - AI R&D Engineer',
+      role: 'Freelance AI Consultant',
       company: [
         { text: 'vcLABs', link: 'https://visualconceptlabs.com/' },
         ' (',
@@ -55,60 +61,71 @@ const CV_DATA = {
       location: 'Sri Lanka',
       period: 'Jun 2024 - Jan 2025',
       details: [
-        'Fine-tuned and deployed Llama 3.1 70B for internal Dialog workloads.',
-        'Forecasted channel viewership for ad scheduling and optimized cost-aware placements.',
-        'Built scheduling extraction to shrink staffing from six to one.'
+        'Fine-tuned and deployed Open Source LLM model for internal use.',
+        'Forecasted channel viewership and built ad scheduling tools.',
+        'Designed a format-agnostic scheduling extractor, reducing manual work significantly.'
       ]
     },
     {
-      role: 'Consultant AI Engineer',
+      role: 'AI Consultant',
       company: 'PekoeAI',
       companyLink: 'https://www.pekoe.ai/',
       location: 'Singapore',
       period: 'Mar 2023 - Jun 2024',
       details: [
-        'Full ASR pipeline delivery with deployment on Jetson Nano for real-time use.',
-        'Developed OCR and tracking for high-speed conveyor tea samples with industrial cameras.',
-        'Explored generative AI for synthetic tea samples and LLM-based grading assistants.'
+        'Developed a real-time speech recognition system on Jetson Nano.',
+        'Built OCR and tracking for rapidly moving tea sample boxes on a conveyor belt.',
+        'Researched AI-generated tea samples with user feedback.',
+        'Innovated an LLM-based approach to automate tea grading assistance.',
+        'Focused on semi-supervised learning and deep vision models for tea classification.'
       ]
     },
     {
-      role: 'Freelance Software & AI Developer',
-      company: 'Upwork & Fiverr',
+      role: 'Freelance AI & Software Developer',
+      company: 'Upwork, Fiverr',
       location: 'Remote',
       period: 'Nov 2020 - Feb 2023',
       details: [
-        'Built surveillance, thief detection, malicious site detection, and OCR-driven dashboards for global clients.',
-        'Optimized wind turbine prediction via hyperparameter tuning and AutoML.',
-        'Delivered GUI ML app for mental health assessment.'
+        'Developed industrial surveillance with 14 cameras.',
+        'Built theft detection and website monitoring tools.',
+        'Worked on mental health ML tools and psychological game dashboards.',
+        'Improved wind turbine prediction using AutoML.'
       ]
     },
     {
-      role: 'Intern Machine Learning and AI Engineer',
+      role: 'AI/ML Intern',
       company: 'Aizenit Technologies',
       companyLink: 'https://www.aizenit.com/',
-      location: 'London, UK',
+      location: 'UK',
       period: 'Oct 2022 - Jan 2023',
-      details: ['Fine-tuned LayoutLM and Donut for document extraction with latency optimizations.']
-    },
-    {
-      role: 'Intern Computer Vision and AI Engineer',
-      company: 'Ansell Lanka (Pvt) Ltd',
-      companyLink: 'https://www.ansell.com/',
-      location: 'Biyagama, Sri Lanka',
-      period: 'Aug 2022 - Oct 2022',
       details: [
-        'Applied YOLOv5, CNNs, autoencoders, DBSCAN, and SVMs in cloud-based ML pipelines.',
-        'Worked with industrial vision cameras and 3D data reconstruction.'
+        'Fine-tuned LayoutLM and Donut for document parsing.',
+        'Built deep learning models for table extraction.',
+        'Focused on latency optimisation and Azure ML.'
       ]
     },
     {
-      role: 'Intern Electrical and Electronic Engineer',
+      role: 'Computer Vision Intern',
+      company: 'Ansell Lanka',
+      companyLink: 'https://www.ansell.com/',
+      location: 'Sri Lanka',
+      period: 'Aug 2022 - Oct 2022',
+      details: [
+        'Used YOLO, CNNs, and Autoencoders for vision tasks.',
+        'Built cloud-based pipelines and processed 3D sensor data.',
+        'Worked hands-on with industrial cameras and profilers.'
+      ]
+    },
+    {
+      role: 'Electronics Intern',
       company: 'Dialog Axiata PLC',
       companyLink: 'https://www.dialog.lk/',
-      location: 'Colombo, Sri Lanka',
-      period: 'Nov 2019 - Jan 2020',
-      details: ['Hands-on with wireless modulation techniques and 5G deployment in Colombo.']
+      location: 'Sri Lanka',
+      period: 'Jul 2022',
+      details: [
+        'Gained exposure to wireless communication systems.',
+        'Observed 5G rollout in Colombo.'
+      ]
     }
   ],
   projects: [
@@ -339,7 +356,24 @@ function renderCV(data) {
     const ul = document.createElement('ul');
     job.details.forEach((detail) => {
       const bullet = document.createElement('li');
-      bullet.textContent = detail;
+      if (Array.isArray(detail)) {
+        detail.forEach(part => {
+          if (typeof part === 'string') {
+            bullet.appendChild(document.createTextNode(part));
+          } else if (part.text && part.link) {
+            const a = document.createElement('a');
+            a.href = part.link;
+            a.target = '_blank';
+            a.textContent = part.text;
+            a.style.color = 'inherit';
+            a.style.textDecoration = 'none';
+            a.style.cursor = 'text'; // Make it look exactly like text as requested, though 'pointer' is standard for links
+            bullet.appendChild(a);
+          }
+        });
+      } else {
+        bullet.textContent = detail;
+      }
       ul.appendChild(bullet);
     });
     li.appendChild(title);
