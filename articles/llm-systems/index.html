@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pamudu Ranasinghe · LLM Systems</title>
+    <link rel="icon" type="image/png" href="../../assets/bot.png">
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .article-hero {
+            margin-bottom: 2rem;
+        }
+
+        .article-content {
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content img {
+            width: 100%;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .linkedin-container {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            /* Or block? User said "seperate that only". Inline-block with width 100% or just under text? Usually separator is full width or text width. Let's make it fit-content to be "that only" or maybe full width is cleaner. Let's try full width for the container but maybe the user meant just the link? "add line to seperate that only". Let's stick to a block separator for the meta info. */
+            width: 100%;
+        }
+
+        .linkedin-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.15rem;
+            /* Bit larger */
+        }
+
+        .linkedin-link:hover {
+            color: var(--text);
+        }
+    </style>
+</head>
+
+<body data-page="article">
+    <nav>
+        <div class="nav-content">
+            <a href="../../index.html" class="nav-brand">
+                Pamudu Ranasinghe
+            </a>
+            <div class="nav-links">
+                <a href="../../index.html">About</a>
+                <a href="../../journal.html">Journal</a>
+                <a href="#" id="chat-toggle" class="chat-toggle-btn">✨ Pamudu AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <article class="article-content">
+                <div class="article-hero">
+                    <div class="linkedin-container">
+                        <a href="https://www.linkedin.com/posts/pamudu-ranasinghe_openai-cursor-anthropic-activity-7390836774173868033-U2dL/"
+                            target="_blank" class="linkedin-link">LinkedIn Post - Nov 8, 2025</a>
+                    </div>
+                    <h1>Building and running LLM systems isn't as simple as it looks.</h1>
+                </div>
+
+                <img src="../../assets/[Gemini]LLMSystems.png" alt="LLM Systems vs Website Hosting Cost Comparison">
+
+                <p><strong>Website hosting:</strong><br>
+                    $5/month, fixed cost.<br>
+                    Serve 100 or 10,000 users = ~same bill.</p>
+
+                <p><strong>LLM systems:</strong><br>
+                    Infrastructure and API costs increase with every new user.<br>
+                    More users = higher costs.</p>
+
+                <p><strong>OpenAI</strong> - Spending $2.25 to make $1<br>
+                    <strong>Cursor</strong> - Charging $20/month but paying multiples in API costs<br>
+                    <strong>Anthropic</strong> - Making $5B+ a year, still raising billions to stay afloat<br>
+                    <strong>Perplexity</strong> - Earning $100M, spending even more on model usage
+                </p>
+
+                <h2>Are these systems sustainable, or just scalable?</h2>
+                <p>Because scaling something unprofitable just means losing money faster.</p>
+
+                <p>?? <strong>What do you think:</strong> Are LLM-driven businesses truly sustainable, or are we still
+                    chasing scale over stability?</p>
+            </article>
+        </div>
+    </main>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header" id="chat-header">
+            <span>Pamudu AI</span>
+        </div>
+        <div class="chat-body" id="chat-messages">
+            <div class="message bot">Hey there! 👋 I'm Pamudu's AI assistant.</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ask me anything...">
+            <button id="chat-send">Send</button>
+        </div>
+    </div>
+
+    <script src="../../script.js"></script>
+</body>
+
+</html>

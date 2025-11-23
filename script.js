@@ -124,7 +124,7 @@ const CV_DATA = {
       period: 'Jul 2022',
       details: [
         'Gained exposure to wireless communication systems.',
-        'Observed 5G rollout in Colombo.'
+        'Experienced 5G rollout in Colombo.'
       ]
     }
   ],
@@ -219,22 +219,32 @@ const CV_DATA = {
 };
 
 const JOURNAL_DATA = [
-    {
-        date: "Jul 26, 2025",
-        name: "LLMs in Practice: How I Choose the Right Model",
-        link: "https://medium.com/@pamudu1111/llms-in-practice-how-i-choose-the-right-model-f87a49f2b861"
-    },
-    {
-        date: "Sep 24, 2024",
-        name: "Automated Election Vote Counting",
-        link: "https://medium.com/@pamudu1111/automated-election-vote-counting-7b89900f7333"
-    },
-    {
-        date: "Dec 31, 2023",
-        name: "Guess The Country",
-        link: "https://medium.com/@pamudu1111/guess-the-country-4b983ff36616"
-    }
-];document.addEventListener('DOMContentLoaded', () => {
+  {
+    date: "Nov 8, 2025",
+    name: "Building and running LLM systems isn't as simple as it looks",
+    link: "articles/llm-systems/index.html"
+  },
+  {
+    date: "Jul 26, 2025",
+    name: "LLMs in Practice: How I Choose the Right Model",
+    link: "https://medium.com/@pamudu1111/llms-in-practice-how-i-choose-the-right-model-f87a49f2b861"
+  },
+  {
+    date: "Jul 10, 2025",
+    name: "AI is trained on our words, but somehow, it still doesn't sound like us",
+    link: "articles/ai-writing-disconnect/index.html"
+  },
+  {
+    date: "Sep 24, 2024",
+    name: "Automated Election Vote Counting",
+    link: "https://medium.com/@pamudu1111/automated-election-vote-counting-7b89900f7333"
+  },
+  {
+    date: "Dec 31, 2023",
+    name: "Guess The Country",
+    link: "https://medium.com/@pamudu1111/guess-the-country-4b983ff36616"
+  }
+]; document.addEventListener('DOMContentLoaded', () => {
   const page = document.body.dataset.page || 'me';
 
   if (page === 'me') {
@@ -264,7 +274,7 @@ function renderCV(data) {
 
   // Hello World Section (Replaces Hero + Summary)
   const helloSection = createSection('Hello World! 🌎');
-  
+
   // Intro (First summary item)
   if (data.summary.length > 0) {
     const p = document.createElement('p');
@@ -282,7 +292,7 @@ function renderCV(data) {
     h3.style.marginBottom = '0.5rem';
     h3.style.fontSize = '1.1rem';
     helloSection.appendChild(h3);
-    
+
     const p = document.createElement('p');
     p.textContent = item.content;
     helloSection.appendChild(p);
@@ -308,7 +318,7 @@ function renderCV(data) {
     contacts.appendChild(li);
   });
   helloSection.appendChild(contacts);
-  
+
   container.appendChild(helloSection);
 
   const expSection = createSection('Professional Experience 👨‍💻');
@@ -318,7 +328,7 @@ function renderCV(data) {
     const li = document.createElement('li');
     const title = document.createElement('div');
     title.className = 'role-line';
-    
+
     const roleText = document.createTextNode(`${job.role} @ `);
     title.appendChild(roleText);
 
@@ -387,22 +397,22 @@ function renderCV(data) {
   const eduSection = createSection('Education 🎓');
   const eduList = document.createElement('ul');
   eduList.className = 'resume-list';
-  
+
   data.education.forEach((edu) => {
     const li = document.createElement('li');
-    
+
     const degreeDiv = document.createElement('div');
     degreeDiv.style.fontWeight = '700';
     degreeDiv.textContent = edu.degree;
-    
+
     const schoolDiv = document.createElement('div');
     schoolDiv.textContent = `${edu.school}, ${edu.period}`;
-    
+
     li.appendChild(degreeDiv);
     li.appendChild(schoolDiv);
     eduList.appendChild(li);
   });
-  
+
   eduSection.appendChild(eduList);
   container.appendChild(eduSection);
 
@@ -412,7 +422,7 @@ function renderCV(data) {
 
   data.projects.forEach((project) => {
     const li = document.createElement('li');
-    
+
     const titleDiv = document.createElement('div');
     titleDiv.style.fontWeight = '700';
     titleDiv.textContent = project.name;
@@ -440,7 +450,7 @@ function renderCV(data) {
     li.appendChild(ul);
     projectList.appendChild(li);
   });
-  
+
   projectSection.appendChild(projectList);
   container.appendChild(projectSection);
 
@@ -546,13 +556,13 @@ function setupChat() {
   function toggleChat(e) {
     if (e) e.preventDefault();
     const isOpen = widget.classList.contains('open');
-    
+
     if (isOpen) {
-        widget.classList.remove('open');
-        document.body.classList.remove('chat-open');
+      widget.classList.remove('open');
+      document.body.classList.remove('chat-open');
     } else {
-        widget.classList.add('open');
-        document.body.classList.add('chat-open');
+      widget.classList.add('open');
+      document.body.classList.add('chat-open');
     }
   }
 
