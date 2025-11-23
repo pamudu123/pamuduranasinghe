@@ -377,7 +377,7 @@ function renderCV(data) {
             a.textContent = part.text;
             a.style.color = 'inherit';
             a.style.textDecoration = 'none';
-            a.style.cursor = 'text'; // Make it look exactly like text as requested, though 'pointer' is standard for links
+            a.style.cursor = 'pointer';
             bullet.appendChild(a);
           }
         });
