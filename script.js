@@ -235,6 +235,16 @@ const JOURNAL_DATA = [
     link: "articles/ai-writing-disconnect/index.html"
   },
   {
+    date: "Jul 04, 2025",
+    name: "The AI Talent Wars: How Experience and Youth are Shaping the Future",
+    link: "articles/ai-talent-wars/index.html"
+  },
+  {
+    date: "Mar 09, 2025",
+    name: "LLMs on Maths??",
+    link: "articles/llm-next-word-prediction/index.html"
+  },
+  {
     date: "Sep 24, 2024",
     name: "Automated Election Vote Counting",
     link: "https://medium.com/@pamudu1111/automated-election-vote-counting-7b89900f7333"

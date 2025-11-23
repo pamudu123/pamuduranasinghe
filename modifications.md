@@ -5,9 +5,6 @@
 - Research. Work–life balance
 
 **LinkedIn**
-- Youth is Shaping AI
-- LLMs in Maths
-
 
 - YOLO Battlefield
 - Explainable AI
