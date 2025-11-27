@@ -562,29 +562,54 @@ function setupChat() {
 
   if (!widget || !header || !input || !sendBtn || !messages) return;
 
+  // Restore state
+  const isChatOpen = localStorage.getItem('chatOpen') === 'true';
+  const savedMessages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+
+  if (isChatOpen) {
+    widget.classList.add('open');
+    document.body.classList.add('chat-open');
+
+    // Restore messages if we have them
+    if (savedMessages.length > 0) {
+      messages.innerHTML = ''; // Clear default
+      savedMessages.forEach(msg => {
+        addMessage(msg.text, msg.sender, false, false); // Don't save again while restoring
+      });
+    }
+  }
+
   const CHAT_API =
     window.CHAT_API_URL ||
     (window.location.hostname.includes('github.io') ? '' : 'http://localhost:8000/api/chat');
-
-  let sessionId = null;
 
   function toggleChat(e) {
     if (e) e.preventDefault();
     const isOpen = widget.classList.contains('open');
 
     if (isOpen) {
+      // Closing
       widget.classList.remove('open');
       document.body.classList.remove('chat-open');
+      // Clear state
+      localStorage.removeItem('chatOpen');
+      localStorage.removeItem('chatMessages');
+      // Reset to default welcome message for next open
+      messages.innerHTML = '<div class="message bot">Hey there! 👋 I\'m Pamudu\'s AI assistant.</div>';
     } else {
+      // Opening
       widget.classList.add('open');
       document.body.classList.add('chat-open');
+      localStorage.setItem('chatOpen', 'true');
     }
   }
 
   // Header click closes the chat
   header.addEventListener('click', () => {
-    widget.classList.remove('open');
-    document.body.classList.remove('chat-open');
+    // Treat header click exactly like closing toggle
+    if (widget.classList.contains('open')) {
+      toggleChat();
+    }
   });
 
   if (toggleBtn) {
@@ -611,7 +636,7 @@ function setupChat() {
     if (e.key === 'Enter') sendMessage();
   });
 
-  function addMessage(text, sender, isLoading = false) {
+  function addMessage(text, sender, isLoading = false, save = true) {
     const div = document.createElement('div');
     div.className = `message ${sender}`;
     if (isLoading) {
@@ -621,11 +646,30 @@ function setupChat() {
     div.textContent = text;
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
+
+    if (save && !isLoading) {
+      saveChatState();
+    }
     return div.id;
   }
 
   function removeMessage(id) {
     const el = document.getElementById(id);
     if (el) el.remove();
+  }
+
+  function saveChatState() {
+    // Save all current messages
+    const msgs = [];
+    // Select all message divs that are not loading messages
+    const msgDivs = messages.querySelectorAll('.message:not(#loading-msg)');
+    msgDivs.forEach(div => {
+      const isUser = div.classList.contains('user');
+      msgs.push({
+        text: div.textContent,
+        sender: isUser ? 'user' : 'bot'
+      });
+    });
+    localStorage.setItem('chatMessages', JSON.stringify(msgs));
   }
 }
