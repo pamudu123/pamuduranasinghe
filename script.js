@@ -221,7 +221,7 @@ const CV_DATA = {
 const JOURNAL_DATA = [
   {
     date: "Nov 26, 2025",
-    name: "Technical Report: Generalizable AI Image Detection",
+    name: "Deep Learning Approach for Generalizable AI Image Detection",
     link: "https://medium.com/@pamudu1111/technical-report-generalizable-ai-image-detection-8b0d901f3c2a"
   },
   {
