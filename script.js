@@ -186,6 +186,7 @@ const CV_DATA = {
     }
   ],
   publications: [
+    { title: 'Predicting Penalty Kick Direction Using Multi-modal Deep Learning with Pose-Guided Attention', venue: 'International Sports Analytics Conference and Exhibition - Springer Nature Switzerland (Pages 179-192)', link: 'https://arxiv.org/pdf/2509.26088' },
     { title: 'Hybrid Y-Net Architecture for Singing Voice Separation', venue: '2023 31st European Signal Processing Conference', link: 'https://arxiv.org/pdf/2303.02599' },
     { title: 'Deep Learning Based Low Light Enhancements for Advanced Driver-Assistance Systems', venue: '2023 IEEE 17th International Conference on Industrial and Information Systems', link: 'https://www.researchgate.net/publication/373873684_Deep_learning_based_low_light_enhancements_for_Advanced_Driver-Assistance_Systems_at_Night' },
     { title: 'AI Approach for FRA Based Condition Assessment of Power Transformers', venue: '2023 IEEE 17th International Conference on Industrial and Information Systems', link: 'https://www.researchgate.net/publication/374064186_AI_Approach_for_FRA_Based_Condition_Assessment_of_Power_Transformers' },
