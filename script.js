@@ -564,11 +564,23 @@ function setupChat() {
 
   if (!widget || !messages || !input || !sendBtn) return;
 
-  // Session ID Management
+  const API_URL = "https://virtual-pamudu-git-main-pamudu-ranasinghes-projects.vercel.app";
+
+  // Session ID from localStorage (will be created on first message)
   let sessionId = localStorage.getItem('chatSessionId');
-  if (!sessionId) {
-    sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
-    localStorage.setItem('chatSessionId', sessionId);
+
+  // Create session from backend
+  async function createSession() {
+    try {
+      const res = await fetch(`${API_URL}/sessions`, { method: "POST" });
+      const data = await res.json();
+      sessionId = data.session_id;
+      localStorage.setItem('chatSessionId', sessionId);
+      return sessionId;
+    } catch (error) {
+      console.error("Failed to create session:", error);
+      return null;
+    }
   }
 
   // Restore state
@@ -587,7 +599,7 @@ function setupChat() {
   // Event Listeners
   if (toggleBtn) toggleBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    toggleChat(); // Toggle, not just open
+    toggleChat();
   });
 
   if (closeBtn) closeBtn.addEventListener('click', () => toggleChat(false));
@@ -595,19 +607,36 @@ function setupChat() {
   // New Chat Button
   const newChatBtn = document.getElementById('chat-new');
   if (newChatBtn) {
-    newChatBtn.addEventListener('click', () => {
+    newChatBtn.addEventListener('click', async () => {
       // Clear messages
       messages.innerHTML = `
         <div class="message bot">
           <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work, projects, or experience!</div>
         </div>
       `;
-      // Generate new session ID
-      sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('chatSessionId', sessionId);
-      // Clear saved messages
+      // Create new session from backend
+      localStorage.removeItem('chatSessionId');
+      sessionId = null;
       localStorage.removeItem('chatMessages');
       input.focus();
+    });
+  }
+
+  // Info Popup Toggle
+  const infoBtn = document.getElementById('chat-info-btn');
+  const infoPopup = document.getElementById('chat-info-popup');
+
+  if (infoBtn && infoPopup) {
+    infoBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      infoPopup.classList.toggle('show');
+    });
+
+    // Close popup when clicking anywhere else
+    document.addEventListener('click', (e) => {
+      if (!infoPopup.contains(e.target) && e.target !== infoBtn) {
+        infoPopup.classList.remove('show');
+      }
     });
   }
 
@@ -640,7 +669,6 @@ function setupChat() {
         localStorage.removeItem('chatOpen');
       }
     } else {
-      // Toggle
       if (widget.classList.contains('open')) {
         toggleChat(false);
       } else {
@@ -653,37 +681,41 @@ function setupChat() {
     const text = input.value.trim();
     if (!text) return;
 
-    // Clear input
     input.value = '';
-
-    // Add User Message
     addMessage(text, 'user');
 
-    // Disable input while thinking
     input.disabled = true;
     sendBtn.disabled = true;
 
-    // Create Bot Message Bubble (Empty initially, with loading state)
     const botMsgId = addMessage('', 'bot', true);
     const botMsgEl = document.getElementById(botMsgId);
     const contentEl = botMsgEl.querySelector('.message-content');
 
-    // API Call
-    const API_URL = "https://virtual-pamudu-bt71onx2g-pamudu-ranasinghes-projects.vercel.app";
-
     try {
+      // Ensure we have a session
+      if (!sessionId) {
+        contentEl.innerHTML = `<div class="thinking-indicator"><div class="spinner"></div><span>Creating session...</span></div>`;
+        sessionId = await createSession();
+        if (!sessionId) {
+          throw new Error("Failed to create session");
+        }
+      }
+
+      contentEl.innerHTML = `<div class="thinking-indicator"><div class="spinner"></div><span>Thinking...</span></div>`;
+
       const response = await fetch(`${API_URL}/chat/stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: sessionId, message: text })
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let fullAnswer = "";
-
-      // Remove "Thinking" indicator immediately when stream starts or we handle state
-      // (The helper logic below will handle the 'status' vs 'result' display)
 
       while (true) {
         const { done, value } = await reader.read();
@@ -694,29 +726,35 @@ function setupChat() {
 
         for (const line of lines) {
           if (line.startsWith("data: ")) {
-            const eventData = JSON.parse(line.slice(6));
+            try {
+              const eventData = JSON.parse(line.slice(6));
 
-            if (eventData.type === "status") {
-              // Update Thinking Indicator
-              // We can replace the content with a spinner + text
-              contentEl.innerHTML = `
-                        <div class="thinking-indicator">
-                            <div class="spinner"></div>
-                            <span>${eventData.message}</span>
-                        </div>
-                    `;
-            } else if (eventData.type === "result") {
-              fullAnswer += eventData.answer;
-              // Render Markdown + Citations
-              contentEl.innerHTML = renderResponse(fullAnswer);
+              if (eventData.type === "status") {
+                contentEl.innerHTML = `
+                  <div class="thinking-indicator">
+                    <div class="spinner"></div>
+                    <span>${eventData.message}</span>
+                  </div>
+                `;
+              } else if (eventData.type === "result") {
+                fullAnswer = eventData.answer || "";
+                let html = renderResponse(fullAnswer);
+
+                // Render citations if present
+                if (eventData.citations && eventData.citations.length > 0) {
+                  html += renderCitations(eventData.citations);
+                }
+
+                contentEl.innerHTML = html;
+              }
+            } catch (e) {
+              console.error("Error parsing event:", e);
             }
           }
         }
-        // Auto scroll to bottom
         messages.scrollTop = messages.scrollHeight;
       }
 
-      // Save full conversation state
       saveChatState();
 
     } catch (err) {
@@ -778,6 +816,40 @@ function setupChat() {
     html = html.replace(/\[(📄|🐙|🔗|video)\s?([^\]]+)\]/g, (match, icon, name) => {
       return `<a href="#" class="citation-chip" onclick="return false;">${icon} ${name}</a>`;
     });
+
+    return html;
+  }
+
+  function renderCitations(citations) {
+    if (!citations || citations.length === 0) return '';
+
+    const getIcon = (sourceType) => {
+      switch (sourceType) {
+        case 'github': return '🐙';
+        case 'brain': return '📄';
+        case 'url': return '🔗';
+        default: return '📄';
+      }
+    };
+
+    let html = '<div class="citations-container">';
+    citations.forEach(citation => {
+      const icon = getIcon(citation.source_type);
+      // Remove file extensions from source name
+      let name = citation.source_name || 'Source';
+      name = name.replace(/\.(md|yaml|yml|txt)$/i, '');
+
+      const url = citation.url || '';
+      const sourceType = citation.source_type || '';
+
+      // Make clickable only if it has a URL and is not a brain/local file source
+      if (url && sourceType !== 'brain') {
+        html += `<a href="${url}" target="_blank" class="citation-chip citation-link">${icon} ${name}</a>`;
+      } else {
+        html += `<span class="citation-chip">${icon} ${name}</span>`;
+      }
+    });
+    html += '</div>';
 
     return html;
   }
