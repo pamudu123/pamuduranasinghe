@@ -29,16 +29,58 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <div class="chat-widget" id="chat-widget">
         <div class="chat-header" id="chat-header">
-            <span>Pamudu AI</span>
+            <div class="chat-header-info">
+                <div class="avatar-container">
+                    <img src="assets/bot.png" alt="AI Avatar" class="chat-avatar">
+                    <span class="online-dot"></span>
+                </div>
+                <div class="chat-title-group">
+                    <span class="chat-title">Pamudu AI</span>
+                    <span class="chat-subtitle">Digital Brain</span>
+                </div>
+            </div>
+            <div class="chat-controls">
+                <!-- Optional: Add Clear Chat button here later if needed -->
+                <button id="chat-close" class="chat-control-btn" aria-label="Close Chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
         </div>
+
         <div class="chat-body" id="chat-messages">
-            <div class="message bot">Hey there! 👋 I'm Pamudu's AI assistant.</div>
+            <div class="message bot">
+                <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work,
+                    projects, or experience!</div>
+            </div>
         </div>
+
+        <div class="chat-suggestions" id="chat-suggestions">
+            <button class="suggestion-chip">Tell me about your experience</button>
+            <button class="suggestion-chip">What are your latest projects?</button>
+            <button class="suggestion-chip">How can I contact you?</button>
+        </div>
+
         <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Ask me anything...">
-            <button id="chat-send">Send</button>
+            <div class="input-wrapper">
+                <input type="text" id="chat-input" placeholder="Ask anything...">
+                <button id="chat-send" aria-label="Send Message">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 

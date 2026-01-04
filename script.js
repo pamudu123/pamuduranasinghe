@@ -555,13 +555,21 @@ function renderJournal(items) {
 
 function setupChat() {
   const widget = document.getElementById('chat-widget');
-  const header = document.getElementById('chat-header');
+  const toggleBtn = document.getElementById('chat-toggle');
+  const closeBtn = document.getElementById('chat-close');
+  const messages = document.getElementById('chat-messages');
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
-  const messages = document.getElementById('chat-messages');
-  const toggleBtn = document.getElementById('chat-toggle');
+  const suggestions = document.getElementById('chat-suggestions');
 
-  if (!widget || !header || !input || !sendBtn || !messages) return;
+  if (!widget || !messages || !input || !sendBtn) return;
+
+  // Session ID Management
+  let sessionId = localStorage.getItem('chatSessionId');
+  if (!sessionId) {
+    sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('chatSessionId', sessionId);
+  }
 
   // Restore state
   const isChatOpen = localStorage.getItem('chatOpen') === 'true';
@@ -570,81 +578,168 @@ function setupChat() {
   if (isChatOpen) {
     widget.classList.add('open');
     document.body.classList.add('chat-open');
-
-    // Restore messages if we have them
     if (savedMessages.length > 0) {
-      messages.innerHTML = ''; // Clear default
-      savedMessages.forEach(msg => {
-        addMessage(msg.text, msg.sender, false, false); // Don't save again while restoring
-      });
+      messages.innerHTML = '';
+      savedMessages.forEach(msg => addMessage(msg.text, msg.sender, false, false));
     }
   }
 
-  const CHAT_API =
-    window.CHAT_API_URL ||
-    (window.location.hostname.includes('github.io') ? '' : 'http://localhost:8000/api/chat');
-
-  function toggleChat(e) {
-    if (e) e.preventDefault();
-    const isOpen = widget.classList.contains('open');
-
-    if (isOpen) {
-      // Closing
-      widget.classList.remove('open');
-      document.body.classList.remove('chat-open');
-      // Clear state
-      localStorage.removeItem('chatOpen');
-      localStorage.removeItem('chatMessages');
-      // Reset to default welcome message for next open
-      messages.innerHTML = '<div class="message bot">Hey there! 👋 I\'m Pamudu\'s AI assistant.</div>';
-    } else {
-      // Opening
-      widget.classList.add('open');
-      document.body.classList.add('chat-open');
-      localStorage.setItem('chatOpen', 'true');
-    }
-  }
-
-  // Header click closes the chat
-  header.addEventListener('click', () => {
-    // Treat header click exactly like closing toggle
-    if (widget.classList.contains('open')) {
-      toggleChat();
-    }
+  // Event Listeners
+  if (toggleBtn) toggleBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleChat(true);
   });
 
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', toggleChat);
+  if (closeBtn) closeBtn.addEventListener('click', () => toggleChat(false));
+
+  sendBtn.addEventListener('click', () => sendMessage());
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+
+  // Suggestion Chips
+  if (suggestions) {
+    suggestions.querySelectorAll('.suggestion-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const text = chip.textContent;
+        input.value = text;
+        sendMessage();
+      });
+    });
+  }
+
+  function toggleChat(forceOpen) {
+    if (typeof forceOpen === 'boolean') {
+      if (forceOpen) {
+        widget.classList.add('open');
+        document.body.classList.add('chat-open');
+        localStorage.setItem('chatOpen', 'true');
+        setTimeout(() => input.focus(), 100);
+      } else {
+        widget.classList.remove('open');
+        document.body.classList.remove('chat-open');
+        localStorage.removeItem('chatOpen');
+      }
+    } else {
+      // Toggle
+      if (widget.classList.contains('open')) {
+        toggleChat(false);
+      } else {
+        toggleChat(true);
+      }
+    }
   }
 
   async function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
 
-    addMessage(text, 'user');
+    // Clear input
     input.value = '';
-    const loadingId = addMessage('Thinking... 🤔', 'bot', true);
 
-    // Simulate a delay for a natural feel
-    setTimeout(() => {
-      removeMessage(loadingId);
-      addMessage("Hey! 👋 I'm currently being built and learning new things. I can't chat just yet, but I'll be ready to help you soon! 🚧✨", 'bot');
-    }, 1000);
+    // Add User Message
+    addMessage(text, 'user');
+
+    // Disable input while thinking
+    input.disabled = true;
+    sendBtn.disabled = true;
+
+    // Create Bot Message Bubble (Empty initially, with loading state)
+    const botMsgId = addMessage('', 'bot', true);
+    const botMsgEl = document.getElementById(botMsgId);
+    const contentEl = botMsgEl.querySelector('.message-content');
+
+    // API Call
+    const API_URL = "https://virtual-pamudu-bt71onx2g-pamudu-ranasinghes-projects.vercel.app";
+
+    try {
+      const response = await fetch(`${API_URL}/chat/stream`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id: sessionId, message: text })
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullAnswer = "";
+
+      // Remove "Thinking" indicator immediately when stream starts or we handle state
+      // (The helper logic below will handle the 'status' vs 'result' display)
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n\n");
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const eventData = JSON.parse(line.slice(6));
+
+            if (eventData.type === "status") {
+              // Update Thinking Indicator
+              // We can replace the content with a spinner + text
+              contentEl.innerHTML = `
+                        <div class="thinking-indicator">
+                            <div class="spinner"></div>
+                            <span>${eventData.message}</span>
+                        </div>
+                    `;
+            } else if (eventData.type === "result") {
+              fullAnswer += eventData.answer;
+              // Render Markdown + Citations
+              contentEl.innerHTML = renderResponse(fullAnswer);
+            }
+          }
+        }
+        // Auto scroll to bottom
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      // Save full conversation state
+      saveChatState();
+
+    } catch (err) {
+      console.error(err);
+      contentEl.textContent = "Sorry, I couldn't reach the backend. Please try again later.";
+      contentEl.style.color = "red";
+    } finally {
+      // Re-enable input
+      input.disabled = false;
+      sendBtn.disabled = false;
+      input.focus();
+      // Ensure specific typing indicator is gone if we finished
+      if (contentEl.innerHTML.includes("thinking-indicator") && contentEl.textContent.trim().length === 0) {
+        contentEl.textContent = "No response received.";
+      }
+    }
   }
-
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
 
   function addMessage(text, sender, isLoading = false, save = true) {
     const div = document.createElement('div');
     div.className = `message ${sender}`;
+    div.id = 'msg-' + Math.random().toString(36).substr(2, 9);
+
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+
     if (isLoading) {
-      div.id = 'loading-msg';
-      div.style.fontStyle = 'italic';
+      contentDiv.innerHTML = `
+            <div class="thinking-indicator">
+                <div class="spinner"></div>
+                <span>Thinking...</span>
+            </div>
+       `;
+    } else {
+      contentDiv.textContent = text;
+      // If validating Markdown for restored messages, we might need to re-render:
+      if (sender === 'bot') {
+        contentDiv.innerHTML = renderResponse(text);
+      }
     }
-    div.textContent = text;
+
+    div.appendChild(contentDiv);
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
 
@@ -654,23 +749,41 @@ function setupChat() {
     return div.id;
   }
 
-  function removeMessage(id) {
-    const el = document.getElementById(id);
-    if (el) el.remove();
+  function renderResponse(text) {
+    // 1. Markdown rendering
+    let html = window.marked ? window.marked.parse(text) : text;
+
+    // 2. Citation rendering (e.g. [📄 Resume])
+    // Regex looking for brackets with emoji or text
+    // We'll trust the bot to format loosely like [📄 Source Name]
+    html = html.replace(/\[(📄|🐙|🔗|video)\s?([^\]]+)\]/g, (match, icon, name) => {
+      return `<a href="#" class="citation-chip" onclick="return false;">${icon} ${name}</a>`;
+    });
+
+    return html;
   }
 
   function saveChatState() {
-    // Save all current messages
     const msgs = [];
-    // Select all message divs that are not loading messages
-    const msgDivs = messages.querySelectorAll('.message:not(#loading-msg)');
+    const msgDivs = messages.querySelectorAll('.message');
     msgDivs.forEach(div => {
+      // access the text content or innerHTML depending on complexity
+      // For simplicity in this demo, let's grab the raw text if possible, 
+      // but since we store markdown, we should ideally store the raw source.
+      // However, we are only extracting from DOM.
+      // To properly support history, we'd need to store the raw "fullAnswer" string in a data attribute.
+      // For now, we'll just save the innerHTML which is okay for display-only history.
+      const contentEl = div.querySelector('.message-content');
       const isUser = div.classList.contains('user');
+      // We skip the thinking/loading content
+      if (contentEl.querySelector('.thinking-indicator')) return;
+
       msgs.push({
-        text: div.textContent,
+        text: isUser ? contentEl.textContent : contentEl.innerHTML, // Store HTML for bot to preserve markdown on restore
         sender: isUser ? 'user' : 'bot'
       });
     });
+    // Filter out welcome message duplicate if needed, but array should be fine
     localStorage.setItem('chatMessages', JSON.stringify(msgs));
   }
 }
