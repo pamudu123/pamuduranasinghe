@@ -587,10 +587,29 @@ function setupChat() {
   // Event Listeners
   if (toggleBtn) toggleBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    toggleChat(true);
+    toggleChat(); // Toggle, not just open
   });
 
   if (closeBtn) closeBtn.addEventListener('click', () => toggleChat(false));
+
+  // New Chat Button
+  const newChatBtn = document.getElementById('chat-new');
+  if (newChatBtn) {
+    newChatBtn.addEventListener('click', () => {
+      // Clear messages
+      messages.innerHTML = `
+        <div class="message bot">
+          <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work, projects, or experience!</div>
+        </div>
+      `;
+      // Generate new session ID
+      sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('chatSessionId', sessionId);
+      // Clear saved messages
+      localStorage.removeItem('chatMessages');
+      input.focus();
+    });
+  }
 
   sendBtn.addEventListener('click', () => sendMessage());
   input.addEventListener('keypress', (e) => {
