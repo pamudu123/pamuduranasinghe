@@ -221,6 +221,16 @@ const CV_DATA = {
 
 const JOURNAL_DATA = [
   {
+    date: "Dec 21, 2025",
+    name: "The Remote Work Paradox: A Quantitative Analysis of Professional Work-Life Balance in 2025",
+    link: "articles/remote-work-paradox/index.html"
+  },
+  {
+    date: "Dec 17, 2025",
+    name: "US Patent Filed: Structured Data Extraction from PDFs",
+    link: "articles/uhg-patent-submission/index.html"
+  },
+  {
     date: "Nov 26, 2025",
     name: "Deep Learning Approach for Generalizable AI Image Detection",
     link: "https://medium.com/@pamudu1111/technical-report-generalizable-ai-image-detection-8b0d901f3c2a"

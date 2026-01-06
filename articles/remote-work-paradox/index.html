@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pamudu Ranasinghe · The Remote Work Paradox</title>
+    <link rel="icon" type="image/png" href="../../assets/bot.png">
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .article-hero {
+            margin-bottom: 2rem;
+        }
+
+        .article-content {
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .article-content h4 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .article-meta {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .linkedin-container {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .linkedin-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.15rem;
+        }
+
+        .linkedin-link:hover {
+            color: var(--text);
+        }
+
+        .survey-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .survey-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--text);
+            color: var(--bg);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .survey-link:hover {
+            opacity: 0.9;
+        }
+
+        .cta-box {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            /* border removed */
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .cta-box p {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body data-page="article">
+    <nav>
+        <div class="nav-content">
+            <a href="../../index.html" class="nav-brand">
+                Pamudu Ranasinghe
+            </a>
+            <div class="nav-links">
+                <a href="../../index.html">About</a>
+                <a href="../../journal.html">Journal</a>
+                <a href="#" id="chat-toggle" class="chat-toggle-btn">✨ Pamudu AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <article class="article-content">
+                <div class="article-hero">
+                    <div class="linkedin-container">
+                        <a href="https://medium.com/@pamudu1111/the-remote-work-paradox-a-quantitative-analysis-of-professional-work-life-balance-in-2025-b35912fd240e"
+                            target="_blank" class="linkedin-link">Read on Medium</a>
+                    </div>
+                    <span class="article-meta">Dec 21, 2025</span>
+                    <h1>The Remote Work Paradox: A Quantitative Analysis of Professional Work-Life Balance in 2025</h1>
+                </div>
+
+                <img src="./remote-work-paradox-gemini.png" alt="Remote Work Paradox"
+                    style="width: 100%; border-radius: 8px; margin-bottom: 2rem;">
+
+                <p>Flexibility was supposed to be the answer to burnout. But new data suggests that while remote workers
+                    have reclaimed their time, they might be losing their connection.</p>
+
+                <p>Since the global shift in 2020, flexible work has evolved from a pandemic necessity to a standard
+                    expectation. By 2025, we’ve settled into new rhythms: some of us are fully remote, some are back in
+                    the office, and many are navigating the hybrid middle ground.</p>
+
+                <p>But is “flexibility” actually fixing our work-life balance?</p>
+
+                <p>To answer this, I conducted a quantitative analysis of 50 professionals across various sectors - from
+                    IT to Healthcare - between June and July 2025. This research was conducted as part of my Master’s
+                    project in Statistical Inference.</p>
+
+                <h3>Key Takeaways</h3>
+
+                <h4>1. The Remote Trade-Off: Better Balance, Higher Isolation</h4>
+                <p>Fully remote workers report significantly lower levels of "Work Interference with Personal Life"
+                    (WIPL). However, this freedom comes with a hidden cost: markedly higher social disconnection scores
+                    compared to hybrid or on-site employees.</p>
+
+                <h4>2. Hybrid Work: The "Safe" Middle Ground?</h4>
+                <p>Hybrid workers sit in the middle of the spectrum - less isolated than remote workers but facing more
+                    work-life interference. Interestingly, the difference in "work interference" levels between hybrid
+                    and on-site workers wasn't statistically significant.</p>
+
+                <h4>3. The "Switch Off" Button is Broken</h4>
+                <p>Nearly 60% of the variance in a person's ability to "switch off" is driven by work interference
+                    (workload intensity and boundary intrusion), not by the arrangement type itself.</p>
+
+                <h4>4. The Industry Divide</h4>
+                <p>Flexibility isn't distributed equally. IT and Engineering roles enjoy the most flexibility, while
+                    sectors like Healthcare remain tied to fixed schedules.</p>
+
+                <h4>The Verdict</h4>
+                <p>Flexibility is a tool, not a cure-all. While remote work reduces life interference, it creates a
+                    vacuum of social connection that organizations must actively fill.</p>
+
+                <hr style="border-color: var(--border); border-style: solid; margin: 3rem 0;">
+
+                <h3>A Look Under the Hood: Adapting the Survey for 2025</h3>
+                <p>I heavily adapted Hayman’s (2005) Work-Life Balance Scale and created entirely new questions to
+                    address modern challenges such as AI integration, digital boundary management, and remote social
+                    isolation.</p>
+
+                <div class="survey-box">
+                    <h4>Work Interference with Personal Life (WIPL)</h4>
+                    <ol>
+                        <li>My personal life suffers because of my work.</li>
+                        <li>I feel I have to reply to work messages or e-mails after hours.</li>
+                        <li>Work is so fast-paced that I cannot fully relax after hours.</li>
+                        <li>I am unhappy with the amount of time for non-work activities.</li>
+                    </ol>
+
+                    <h4>Personal Life Interference with Work (PLIW)</h4>
+                    <ol start="5">
+                        <li>My personal life drains me of the energy I need for my work.</li>
+                        <li>Distractions in my home environment during work hours make it difficult to focus.</li>
+                        <li>Because of personal commitments, I take part less in team communication or meetings.</li>
+                        <li>I do not spend much time with teammates outside work because of personal matters.</li>
+                    </ol>
+
+                    <h4>Work/Personal-Life Enhancement (WPLE)</h4>
+                    <ol start="9">
+                        <li>I have enough control over my job to manage both work and personal life well.</li>
+                        <li>The flexibility my job offers helps me manage personal responsibilities.</li>
+                        <li>My personal life gives me energy for my job.</li>
+                        <li>My job helps me feel energetic for my personal life too.</li>
+                    </ol>
+
+                    <h4>Modern Work Experience</h4>
+                    <p><em>These items were specifically created for this study to measure the impact of modern tools
+                            and remote work environments.</em></p>
+                    <ol start="13">
+                        <li>AI tools help me work faster and improve my work-life balance.</li>
+                        <li>I feel pressured to work at the same time as colleagues even when tasks could be done
+                            flexibly.</li>
+                        <li>I feel comfortable talking to my manager if I am overwhelmed or stressed.</li>
+                        <li>I find it difficult to “switch off” from work at the end of the day when working from home.
+                        </li>
+                        <li>Working remotely makes me feel socially disconnected from colleagues and company culture.
+                        </li>
+                        <li>The digital tools and communication platforms we use help me collaborate effectively with my
+                            team.</li>
+                    </ol>
+                </div>
+
+                <p>For transparency, the survey used for this analysis was hosted online and can be viewed here:</p>
+                <a href="https://pamudu123.github.io/modern-work-practices-survey/" target="_blank"
+                    class="survey-link">Modern Work Practices Survey &rarr;</a>
+
+                <h3 style="margin-top: 3rem; font-size: 1.4rem;">Interested in understanding your team's work-life
+                    balance?</h3>
+
+            </article>
+        </div>
+    </main>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header" id="chat-header">
+            <div class="chat-header-info">
+                <img src="../../assets/bot.png" alt="AI" class="chat-avatar">
+                <span class="chat-title">Pamudu AI</span>
+                <button id="chat-info-btn" class="version-badge" aria-label="Version Info"
+                    title="About Pamudu AI">1.0</button>
+            </div>
+            <div class="chat-controls">
+                <button id="chat-new" class="chat-new-btn" aria-label="New Chat" title="New Chat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Info Popup -->
+            <div id="chat-info-popup" class="chat-info-popup">
+                <div class="popup-title">Pamudu AI 1.0</div>
+                <div class="popup-tagline">We keep improving ✨</div>
+                <div class="popup-section">
+                    <div class="popup-label">Key Features:</div>
+                    <ul>
+                        <li>Optimized context management to reduce tool calling.</li>
+                        <li>Parallel tool calling.</li>
+                        <li>Dynamic graph-based reasoning engine.</li>
+                    </ul>
+                </div>
+                <div class="popup-section">
+                    <div class="popup-label">Key Capabilities so Far:</div>
+                    <ul>
+                        <li>Live data scraping from GitHub, Medium, & YouTube.</li>
+                        <li>Deep context retrieval from academic papers & resume.</li>
+                        <li>Easy contact with built-in email sending.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chat-messages">
+            <div class="message bot">
+                <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work,
+                    projects, or experience!</div>
+            </div>
+        </div>
+
+        <div class="chat-suggestions" id="chat-suggestions">
+            <button class="suggestion-chip">Tell me about your experience</button>
+            <button class="suggestion-chip">What are your latest projects?</button>
+            <button class="suggestion-chip">How can I contact you?</button>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="input-wrapper">
+                <input type="text" id="chat-input" placeholder="Ask anything...">
+                <button id="chat-send" aria-label="Send Message">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../script.js"></script>
+</body>
+
+</html>

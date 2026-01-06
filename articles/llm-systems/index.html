@@ -105,14 +105,68 @@
 
     <div class="chat-widget" id="chat-widget">
         <div class="chat-header" id="chat-header">
-            <span>Pamudu AI</span>
+            <div class="chat-header-info">
+                <img src="../../assets/bot.png" alt="AI" class="chat-avatar">
+                <span class="chat-title">Pamudu AI</span>
+                <button id="chat-info-btn" class="version-badge" aria-label="Version Info"
+                    title="About Pamudu AI">1.0</button>
+            </div>
+            <div class="chat-controls">
+                <button id="chat-new" class="chat-new-btn" aria-label="New Chat" title="New Chat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Info Popup -->
+            <div id="chat-info-popup" class="chat-info-popup">
+                <div class="popup-title">Pamudu AI 1.0</div>
+                <div class="popup-tagline">We keep improving ✨</div>
+                <div class="popup-section">
+                    <div class="popup-label">Key Features:</div>
+                    <ul>
+                        <li>Optimized context management to reduce tool calling.</li>
+                        <li>Parallel tool calling.</li>
+                        <li>Dynamic graph-based reasoning engine.</li>
+                    </ul>
+                </div>
+                <div class="popup-section">
+                    <div class="popup-label">Key Capabilities so Far:</div>
+                    <ul>
+                        <li>Live data scraping from GitHub, Medium, & YouTube.</li>
+                        <li>Deep context retrieval from academic papers & resume.</li>
+                        <li>Easy contact with built-in email sending.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
+
         <div class="chat-body" id="chat-messages">
-            <div class="message bot">Hey there! 👋 I'm Pamudu's AI assistant.</div>
+            <div class="message bot">
+                <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work,
+                    projects, or experience!</div>
+            </div>
         </div>
+
+        <div class="chat-suggestions" id="chat-suggestions">
+            <button class="suggestion-chip">Tell me about your experience</button>
+            <button class="suggestion-chip">What are your latest projects?</button>
+            <button class="suggestion-chip">How can I contact you?</button>
+        </div>
+
         <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Ask me anything...">
-            <button id="chat-send">Send</button>
+            <div class="input-wrapper">
+                <input type="text" id="chat-input" placeholder="Ask anything...">
+                <button id="chat-send" aria-label="Send Message">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 

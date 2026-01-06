@@ -300,8 +300,10 @@ footer {
 }
 
 .chat-toggle-btn:hover {
-  background: var(--text);
-  color: var(--bg) !important;
+  background: transparent;
+  color: #000 !important;
+  border-color: #000;
+  font-weight: 600;
 }
 
 .chat-widget {
