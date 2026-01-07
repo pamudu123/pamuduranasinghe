@@ -585,6 +585,25 @@ body.chat-open footer {
   color: #bae6fd;
 }
 
+.message.bot .message-content h1,
+.message.bot .message-content h2,
+.message.bot .message-content h3,
+.message.bot .message-content h4,
+.message.bot .message-content h5,
+.message.bot .message-content h6,
+.message.bot .message-content strong,
+.message.bot .message-content b {
+  color: #fff;
+  margin-top: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.message.bot .message-content strong,
+.message.bot .message-content b {
+  font-weight: 700;
+  margin: 0;
+}
+
 /* Citation chips */
 .citations-container {
   display: flex;
