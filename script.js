@@ -196,6 +196,7 @@ const CV_DATA = {
     'Training Program on Artificial Intelligence in Embedded Systems - University of Moratuwa',
     'Oracle Certified Java Program - SLIIT',
     'AWS Academy Graduate - Data Engineering',
+    'Duke University - Explainable AI (XAI) Specialization',
     'DeepLearning.AI - Neural Networks and Deep Learning (Specialization)',
     'DeepLearning.AI - Natural Language Processing (Specialization)',
     'DeepLearning.AI - Generative Adversarial Networks (Specialization)',
