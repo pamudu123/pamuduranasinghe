@@ -4,20 +4,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pamudu Ranasinghe · Journal</title>
-    <link rel="icon" type="image/png" href="assets/bot.png">
-    <link rel="stylesheet" href="style.css">
+    <title>Pamudu Ranasinghe · Explainable AI (XAI) Specialization</title>
+    <link rel="icon" type="image/png" href="../../assets/bot.png">
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .article-hero {
+            margin-bottom: 2rem;
+        }
+
+        .article-content {
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-meta {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .cert-verify-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--text);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .cert-verify-link:hover {
+            color: var(--primary);
+        }
+    </style>
 </head>
 
-<body data-page="journal">
+<body data-page="article">
     <nav>
         <div class="nav-content">
-            <a href="index.html" class="nav-brand">
+            <a href="../../index.html" class="nav-brand">
                 Pamudu Ranasinghe
             </a>
             <div class="nav-links">
-                <a href="index.html">About</a>
-                <a href="journal.html" class="active">Journal</a>
+                <a href="../../index.html">About</a>
+                <a href="../../journal.html">Journal</a>
                 <a href="#" id="chat-toggle" class="chat-toggle-btn">✨ Pamudu AI</a>
             </div>
         </div>
@@ -25,21 +59,31 @@
 
     <main>
         <div class="container">
-            <div class="journal-hero">
-                <p class="eyebrow">Writing & Notes</p>
-                <h1>Journal</h1>
-                <p class="lede">Research findings, engineering milestones, and my continuous learning journey.</p>
-            </div>
-            <ul class="journal-list" id="journal-list">
-                <!-- Journal items will be loaded here -->
-            </ul>
+            <article class="article-content">
+                <div class="article-hero">
+                    <span class="article-meta">Dec 08, 2025</span>
+                    <h1>Explainable AI (XAI) Specialization</h1>
+                    <p style="color: var(--muted); margin-top: 0.5rem;">Offered by Duke University</p>
+                </div>
+
+                <img src="./xAI_certificate.png" alt="Explainable AI (XAI) Certificate"
+                    style="width: 100%; border-radius: 8px; margin-bottom: 2rem; border: 1px solid var(--border);">
+
+                <p>I completed this 3-course specialization to make my work easier.</p>
+
+                <p>I prefer not to build things that I don't fully understand, as I might miss the best solution. So, I
+                    prioritized learning to ensure I can deliver the best work.</p>
+
+                <a href="https://coursera.org/verify/specialization/SG6PY9T5ZUID" target="_blank"
+                    class="cert-verify-link">Verify this certificate &rarr;</a>
+            </article>
         </div>
     </main>
 
     <div class="chat-widget" id="chat-widget">
         <div class="chat-header" id="chat-header">
             <div class="chat-header-info">
-                <img src="assets/bot.png" alt="AI" class="chat-avatar">
+                <img src="../../assets/bot.png" alt="AI" class="chat-avatar">
                 <span class="chat-title">Pamudu AI</span>
                 <button id="chat-info-btn" class="version-badge" aria-label="Version Info"
                     title="About Pamudu AI">1.0</button>
@@ -103,7 +147,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="../../script.js"></script>
 </body>
 
 </html>

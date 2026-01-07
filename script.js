@@ -231,6 +231,11 @@ const JOURNAL_DATA = [
     link: "articles/uhg-patent-submission/index.html"
   },
   {
+    date: "Dec 08, 2025",
+    name: "Explainable AI (XAI) Specialization",
+    link: "articles/xAI-certificate/index.html"
+  },
+  {
     date: "Nov 26, 2025",
     name: "Deep Learning Approach for Generalizable AI Image Detection",
     link: "https://medium.com/@pamudu1111/technical-report-generalizable-ai-image-detection-8b0d901f3c2a"
