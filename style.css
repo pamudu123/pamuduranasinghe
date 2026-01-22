@@ -420,6 +420,19 @@ body.chat-open footer {
   color: #444;
 }
 
+.new-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 10px;
+  margin-left: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 .chat-header-info {
   display: flex;
   align-items: center;
