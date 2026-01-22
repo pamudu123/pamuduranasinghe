@@ -762,6 +762,11 @@ function setupChat() {
                 }
 
                 contentEl.innerHTML = html;
+
+                // Update suggestion chips with suggested questions (max 3)
+                if (eventData.suggested_questions && eventData.suggested_questions.length > 0) {
+                  updateSuggestionChips(eventData.suggested_questions.slice(0, 3));
+                }
               }
             } catch (e) {
               console.error("Error parsing event:", e);
@@ -834,6 +839,28 @@ function setupChat() {
     });
 
     return html;
+  }
+
+  function updateSuggestionChips(suggestedQuestions) {
+    if (!suggestions) return;
+
+    // Clear existing chips
+    suggestions.innerHTML = '';
+
+    // Add new chips (max 3, but slice is already done before calling)
+    suggestedQuestions.forEach(question => {
+      const chip = document.createElement('button');
+      chip.className = 'suggestion-chip';
+      chip.textContent = question;
+      chip.addEventListener('click', () => {
+        input.value = question;
+        sendMessage();
+      });
+      suggestions.appendChild(chip);
+    });
+
+    // Show suggestions container
+    suggestions.style.display = 'flex';
   }
 
   function renderCitations(citations) {
