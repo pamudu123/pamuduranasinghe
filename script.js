@@ -195,6 +195,7 @@ const CV_DATA = {
   certifications: [
     'Training Program on Artificial Intelligence in Embedded Systems - University of Moratuwa',
     'Oracle Certified Java Program - SLIIT',
+    'AI Orchestration Bootcamp (LLMs, RAGs, Agents) – Cohort Six - SenzMate',
     'AWS Academy Graduate - Data Engineering',
     'Duke University - Explainable AI (XAI) Specialization',
     'DeepLearning.AI - Neural Networks and Deep Learning (Specialization)',
