@@ -223,6 +223,11 @@ const CV_DATA = {
 
 const JOURNAL_DATA = [
   {
+    date: "Feb 22, 2026",
+    name: "I Built CarVault — A Personal Vehicle Management App, Now Live on Google Play",
+    link: "articles/CarValut/index.html"
+  },
+  {
     date: "Dec 21, 2025",
     name: "The Remote Work Paradox: A Quantitative Analysis of Professional Work-Life Balance in 2025",
     link: "articles/remote-work-paradox/index.html"

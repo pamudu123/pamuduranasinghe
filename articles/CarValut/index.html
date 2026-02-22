@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pamudu Ranasinghe · I Built CarVault — My Personal Vehicle Management App</title>
+    <link rel="icon" type="image/png" href="../../assets/bot.png">
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .article-hero {
+            margin-bottom: 2rem;
+        }
+
+        .article-content {
+            max-width: 700px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .article-content h4 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .article-meta {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .linkedin-container {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .linkedin-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.15rem;
+        }
+
+        .linkedin-link:hover {
+            color: var(--text);
+        }
+
+        .quote-block {
+            border-left: 4px solid var(--text);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .feature-list li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--muted);
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .screenshots-grid img {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .store-badges {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .store-badge {
+            display: inline-block;
+            padding: 0.7rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .store-badge.playstore {
+            background-color: var(--text);
+            color: var(--bg);
+        }
+
+        .store-badge.appstore {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: default;
+        }
+
+        .store-badge:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 500px) {
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body data-page="article">
+    <nav>
+        <div class="nav-content">
+            <a href="../../index.html" class="nav-brand">
+                Pamudu Ranasinghe
+            </a>
+            <div class="nav-links">
+                <a href="../../index.html">About</a>
+                <a href="../../journal.html">Journal</a>
+                <a href="#" id="chat-toggle" class="chat-toggle-btn">✨ Pamudu AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <article class="article-content">
+                <div class="article-hero">
+                    <span class="article-meta">Feb 22, 2026</span>
+                    <h1>I Built CarVault — A Personal Vehicle Management App, Now Live on Google Play</h1>
+                </div>
+
+                <div class="quote-block">
+                    "I built CarVault because I struggled to manage my own vehicle data effectively and needed a better
+                    solution."
+                </div>
+
+
+                <p>
+                    Today, <strong>CarVault</strong> is live on the <strong>Google Play Store</strong> 🎉. It's a
+                    mobile app I designed and developed from the ground up to be the one tool a vehicle owner actually
+                    needs.
+                </p>
+
+                <h3>What CarVault Does</h3>
+
+                <ul class="feature-list">
+                    <li>Track <strong>fuel fill-ups</strong> with cost, volume, and efficiency calculations</li>
+                    <li>Log <strong>service records</strong> — maintenance, repairs, and scheduled work</li>
+                    <li>Record <strong>accidents</strong> and incidents with details</li>
+                    <li>Manage <strong>documents</strong> — insurance, registration, emission certificates, and more via
+                        a Digital Wallet</li>
+                    <li>Track <strong>upgrades</strong> and modifications made to your vehicle</li>
+                    <li>Log <strong>fines</strong> so nothing slips through the cracks</li>
+                    <li>Support <strong>multiple vehicles</strong> — switch between them effortlessly</li>
+                    <li>View <strong>analytics and insights</strong> — efficiency trends, cost per km, total spend, and
+                        distance traveled</li>
+                </ul>
+
+                <h3>App Screenshots</h3>
+
+                <div class="screenshots-grid">
+                    <img src="./mobile/IMG_3377.jpg" alt="CarVault Onboarding Screen">
+                    <img src="./mobile/IMG_3378.jpg" alt="CarVault Dashboard — Fuel and Service Log">
+                    <img src="./mobile/IMG_3379.jpg" alt="CarVault Showroom — Analytics and Insights">
+                    <img src="./mobile/IMG_3382.jpg" alt="CarVault Digital Wallet — Vehicle Documents">
+                </div>
+
+                <h3>The Story Behind It</h3>
+
+                <p>
+                    Like most side projects, CarVault started as a personal frustration. I had a vehicle, a growing
+                    list of expenses and service dates, and no good way to track any of it. Spreadsheets were clunky.
+                    Generic apps were either too simple or too cluttered. I wanted something clean, smart, and actually
+                    useful — so I started building.
+                </p>
+
+                <p>
+                    What I didn't expect was how much depth the problem had. Once you go beyond "log a fuel entry,"
+                    you're thinking about efficiency calculations, document expiry reminders, multi-vehicle switching,
+                    data integrity, and a UI that doesn't feel like a chore to open. That's what CarVault became.
+                </p>
+
+                <h3>The CarVault Website</h3>
+
+                <p>
+                    Alongside the app, I also built a dedicated website for CarVault — a clean landing page to showcase
+                    what the app does and where to get it.
+                </p>
+
+                <div class="screenshots-grid" style="grid-template-columns: 1fr;">
+                    <img src="./web/home1.png" alt="CarVault Website — Hero Section">
+                    <img src="./web/home2.png" alt="CarVault Website — Features Section">
+                </div>
+
+                <p>
+                    <a href="https://pamudu123.github.io/VehicleApp_Web/index.html" target="_blank"
+                        style="color: var(--text); font-weight: 600;">Visit the CarVault website →</a>
+                </p>
+
+                <h3>What's Next</h3>
+
+                <p>
+                    CarVault is now available on <strong>Google Play</strong>, and I'm actively planning the
+                    <strong>iOS release</strong> for the App Store. The roadmap includes reminders for document
+                    expiry and service intervals, cloud backup, and more analytics features.
+                </p>
+
+                <div class="store-badges">
+                    <a href="https://play.google.com/apps/testing/com.pamudur.carvault" target="_blank"
+                        class="store-badge playstore">
+                        ▶ Early Preview on Google Play
+                    </a>
+                    <span class="store-badge appstore">
+                        🍎 iOS — Coming Soon
+                    </span>
+                </div>
+
+                <p>
+                    If you own a vehicle and want a better way to stay on top of it, give CarVault a try. And if you
+                    have feedback, I'd love to hear it — every feature in the app started with a real need.
+                </p>
+
+            </article>
+        </div>
+    </main>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header" id="chat-header">
+            <div class="chat-header-info">
+                <img src="../../assets/bot.png" alt="AI" class="chat-avatar">
+                <span class="chat-title">Pamudu AI</span>
+                <button id="chat-info-btn" class="version-badge" aria-label="Version Info"
+                    title="About Pamudu AI">1.1</button>
+            </div>
+            <div class="chat-controls">
+                <button id="chat-new" class="chat-new-btn" aria-label="New Chat" title="New Chat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Info Popup -->
+            <div id="chat-info-popup" class="chat-info-popup">
+                <div class="popup-title">Pamudu AI 1.1</div>
+                <div class="popup-tagline">We keep improving ✨</div>
+                <div class="popup-section">
+                    <div class="popup-label">Key Features:</div>
+                    <ul>
+                        <li>Follow-up question suggestions. <span class="new-badge">NEW</span></li>
+                        <li>Optimized context management to reduce tool calling.</li>
+                        <li>Parallel tool calling.</li>
+                        <li>Dynamic graph-based reasoning engine.</li>
+                    </ul>
+                </div>
+                <div class="popup-section">
+                    <div class="popup-label">Key Capabilities so Far:</div>
+                    <ul>
+                        <li>Live data scraping from GitHub, Medium, & YouTube.</li>
+                        <li>Deep context retrieval from academic papers & resume.</li>
+                        <li>Easy contact with built-in email sending.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chat-messages">
+            <div class="message bot">
+                <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work,
+                    projects, or experience!</div>
+            </div>
+        </div>
+
+        <div class="chat-suggestions" id="chat-suggestions">
+            <button class="suggestion-chip">Who is Pamudu?</button>
+            <button class="suggestion-chip">What are Pamudu's skills?</button>
+            <button class="suggestion-chip">Show me Pamudu's projects</button>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="input-wrapper">
+                <input type="text" id="chat-input" placeholder="Ask anything...">
+                <button id="chat-send" aria-label="Send Message">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../script.js"></script>
+</body>
+
+</html>
