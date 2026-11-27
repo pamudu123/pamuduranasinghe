@@ -287,6 +287,99 @@ footer {
   font-size: 0.95rem;
 }
 
+/* --- Monochrome line icons --- */
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--text);
+}
+
+.icon svg {
+  display: block;
+}
+
+.with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.nav-links .chat-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* --- Navigation on small screens: name on top, links below --- */
+
+@media (max-width: 600px) {
+  nav {
+    padding: 0.8rem 6%;
+  }
+
+  .nav-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .nav-brand {
+    font-size: 1.3rem;
+    white-space: nowrap;
+  }
+
+  .nav-links {
+    width: 100%;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .nav-links a {
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+
+  .nav-links a:first-child {
+    padding-left: 0;
+  }
+
+  .chat-toggle-btn {
+    margin-left: auto;
+    font-size: 0.9rem !important;
+  }
+}
+
+/* --- About page only: hero --- */
+
+body[data-page="me"] .hero {
+  padding: 1.5rem 0 2.5rem;
+  margin-bottom: 2.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+body[data-page="me"] .hero h1 {
+  font-size: clamp(2.4rem, 7vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.9rem;
+}
+
+body[data-page="me"] .hero .lede {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 34rem;
+  margin-bottom: 0;
+}
+
+body[data-page="me"] .section {
+  margin-bottom: 3rem;
+}
+
+body[data-page="me"] .section>p {
+  max-width: 44rem;
+}
+
 /* --- Chat Widget (Simple Sidebar) --- */
 
 .chat-toggle-btn {

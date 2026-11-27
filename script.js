@@ -10,8 +10,8 @@ const CV_DATA = {
   ],
   summary: [
     { title: 'Hi there! 👋', content: 'Hi, I’m Pamudu. I’m a Lead AI Engineer who loves turning complex code into practical innovations. Proudly exploring the world of tech from the beautiful island of Sri Lanka 🇱🇰.' },
-    { title: 'What I Do 💻', content: 'I’m passionate about teaching machines to see, hear, and think—specializing in Natural Language Processing, Computer Vision, and Audio Signal Analysis. With over four years of experience building machine learning solutions, my work supports millions of users across different products.' },
-    { title: 'Beyond the Code ♟', content: 'I had the honor of representing Team Sri Lanka at the Asian University Chess Championship and earned University Colors for my performance. It turns out, strategizing moves on the board is great training for AI architecture—both require patience, pattern recognition, and knowing exactly when to make a sacrifice for the win!' }
+    { title: 'What I Do', icon: 'laptop', content: 'I’m passionate about teaching machines to see, hear, and think—specializing in Natural Language Processing, Computer Vision, and Audio Signal Analysis. With over four years of experience building machine learning solutions, my work supports millions of users across different products.' },
+    { title: 'Beyond the Code', icon: 'pawn', content: 'I had the honor of representing Team Sri Lanka at the Asian University Chess Championship and earned University Colors for my performance. It turns out, strategizing moves on the board is great training for AI architecture—both require patience, pattern recognition, and knowing exactly when to make a sacrifice for the win!' }
   ],
   skills: [
     { label: 'Languages', items: ['Python', 'C++', 'Matlab', 'Java', 'C'] },
@@ -26,7 +26,12 @@ const CV_DATA = {
       companyLink: 'https://creditsource.com.au/',
       location: 'Australia',
       period: 'Aug 2025 - Present',
-      details: ['Leading the AI team to build machine learning solutions for credit risk and financial document processing.']
+      details: [
+        'Lead the AI team building ML solutions for credit risk and financial document processing.',
+        'Automated financial data extraction into balanced statements, cutting manual work by 70-80%.',
+        'Built risk rating models covering 250K corporate entities across AUS and NZ.',
+        'Automated end-to-end financial analysis, turning analysts from report writers into reviewers.'
+      ]
     },
     {
       role: 'Software Engineer (AI/ML)',
@@ -294,12 +299,38 @@ const JOURNAL_DATA = [
   setupChat();
 });
 
-function createSection(title) {
+// Monochrome line icons (24x24, drawn with currentColor)
+const ICONS = {
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9s1.3-6.3 3.8-9z"/>',
+  laptop: '<rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/>',
+  pawn: '<circle cx="12" cy="6" r="3"/><path d="M9.5 9h5"/><path d="M10.5 9c0 4-2.5 6-3.5 9h10c-1-3-3.5-5-3.5-9"/><path d="M6 21h12"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14.3c2.1.8 3.5 2.9 3.5 5.7"/>',
+  briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+  cap: '<path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11.5V16c0 1.2 2.7 3 6 3s6-1.8 6-3v-4.5"/><path d="M22 9v6"/>',
+  rocket: '<path d="M12 3c3 2.5 4.5 6 4.5 10v3h-9v-3C7.5 9 9 5.5 12 3z"/><circle cx="12" cy="10" r="1.5"/><path d="M7.5 14L5 17v3l2.5-1.5"/><path d="M16.5 14l2.5 3v3l-2.5-1.5"/><path d="M10.5 19.5L12 22l1.5-2.5"/>',
+  file: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/>',
+  award: '<circle cx="12" cy="9" r="6"/><path d="M8.5 13.9L7 22l5-3 5 3-1.5-8.1"/>',
+  trophy: '<path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4"/><path d="M16 6h3a3 3 0 0 1-3 4"/><path d="M12 14v7"/><path d="M8 21h8"/>',
+  star: '<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3z"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 16v4"/><path d="M17 18h4"/>'
+};
+
+function createIcon(name, size = 22) {
+  const span = document.createElement('span');
+  span.className = 'icon';
+  span.setAttribute('aria-hidden', 'true');
+  span.innerHTML = `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${ICONS[name] || ''}</svg>`;
+  return span;
+}
+
+function createSection(title, iconName) {
   const section = document.createElement('section');
   section.className = 'section';
 
   const h2 = document.createElement('h2');
   h2.textContent = title;
+  if (iconName) h2.appendChild(createIcon(iconName, 24));
   section.appendChild(h2);
   return section;
 }
@@ -310,8 +341,22 @@ function renderCV(data) {
 
   container.innerHTML = '';
 
-  // Hello World Section (Replaces Hero + Summary)
-  const helloSection = createSection('Hello World! 🌎');
+  // Hero (text only)
+  const hero = document.createElement('header');
+  hero.className = 'hero';
+  const eyebrow = document.createElement('p');
+  eyebrow.className = 'eyebrow';
+  eyebrow.textContent = data.title;
+  const heroName = document.createElement('h1');
+  heroName.textContent = data.name;
+  const lede = document.createElement('p');
+  lede.className = 'lede';
+  lede.textContent = data.headline;
+  hero.append(eyebrow, heroName, lede);
+  container.appendChild(hero);
+
+  // Hello World Section (Summary)
+  const helloSection = createSection('Hello World!', 'globe');
 
   // Intro (First summary item)
   if (data.summary.length > 0) {
@@ -326,6 +371,10 @@ function renderCV(data) {
     const item = data.summary[i];
     const h3 = document.createElement('h3');
     h3.textContent = item.title;
+    if (item.icon) {
+      h3.className = 'with-icon';
+      h3.appendChild(createIcon(item.icon, 18));
+    }
     h3.style.marginTop = '1.5rem';
     h3.style.marginBottom = '0.5rem';
     h3.style.fontSize = '1.1rem';
@@ -338,7 +387,9 @@ function renderCV(data) {
 
   // Let's Connect
   const connectHeader = document.createElement('h3');
-  connectHeader.textContent = 'Let’s Connect! 🤝';
+  connectHeader.textContent = 'Let’s Connect!';
+  connectHeader.className = 'with-icon';
+  connectHeader.appendChild(createIcon('users', 18));
   connectHeader.style.marginTop = '1.5rem';
   connectHeader.style.marginBottom = '0.5rem';
   connectHeader.style.fontSize = '1.1rem';
@@ -359,7 +410,7 @@ function renderCV(data) {
 
   container.appendChild(helloSection);
 
-  const expSection = createSection('Professional Experience 👨‍💻');
+  const expSection = createSection('Professional Experience', 'briefcase');
   const expList = document.createElement('ul');
   expList.className = 'resume-list';
   data.experience.forEach((job) => {
@@ -432,7 +483,7 @@ function renderCV(data) {
   expSection.appendChild(expList);
   container.appendChild(expSection);
 
-  const eduSection = createSection('Education 🎓');
+  const eduSection = createSection('Education', 'cap');
   const eduList = document.createElement('ul');
   eduList.className = 'resume-list';
 
@@ -454,7 +505,7 @@ function renderCV(data) {
   eduSection.appendChild(eduList);
   container.appendChild(eduSection);
 
-  const projectSection = createSection('Key Projects 🚀');
+  const projectSection = createSection('Key Projects', 'rocket');
   const projectList = document.createElement('ul');
   projectList.className = 'resume-list';
 
@@ -492,7 +543,7 @@ function renderCV(data) {
   projectSection.appendChild(projectList);
   container.appendChild(projectSection);
 
-  const pubSection = createSection('Publications 📝');
+  const pubSection = createSection('Publications', 'file');
   const pubList = document.createElement('ul');
   pubList.className = 'mono-list';
   data.publications.forEach((pub) => {
@@ -513,7 +564,7 @@ function renderCV(data) {
   pubSection.appendChild(pubList);
   container.appendChild(pubSection);
 
-  const certSection = createSection('Certifications 📜');
+  const certSection = createSection('Certifications', 'award');
   const certList = document.createElement('ul');
   certList.className = 'mono-list';
   data.certifications.forEach((cert) => {
@@ -524,7 +575,7 @@ function renderCV(data) {
   certSection.appendChild(certList);
   container.appendChild(certSection);
 
-  const achieveSection = createSection('Notable Achievements 🏆');
+  const achieveSection = createSection('Notable Achievements', 'trophy');
   const achieveList = document.createElement('ul');
   achieveList.className = 'mono-list';
   data.achievements.forEach((item) => {
@@ -535,7 +586,7 @@ function renderCV(data) {
   achieveSection.appendChild(achieveList);
   container.appendChild(achieveSection);
 
-  const actSection = createSection('Extracurricular 🌟');
+  const actSection = createSection('Extracurricular', 'star');
   const actList = document.createElement('ul');
   actList.className = 'mono-list';
   data.activities.forEach((item) => {
@@ -546,7 +597,7 @@ function renderCV(data) {
   actSection.appendChild(actList);
   container.appendChild(actSection);
 
-  const interestSection = createSection('Interests 🎯');
+  const interestSection = createSection('Interests', 'target');
   const chips = document.createElement('div');
   chips.className = 'contact-row';
   data.interests.forEach((interest) => {
@@ -583,6 +634,12 @@ function setupChat() {
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
   const suggestions = document.getElementById('chat-suggestions');
+
+  // Monochrome icon on the nav button (replaces the emoji in the markup)
+  if (toggleBtn) {
+    toggleBtn.textContent = '';
+    toggleBtn.append(createIcon('sparkle', 16), 'Pamudu AI');
+  }
 
   if (!widget || !messages || !input || !sendBtn) return;
 
