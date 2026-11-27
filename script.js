@@ -630,10 +630,6 @@ function setupChat() {
   const widget = document.getElementById('chat-widget');
   const toggleBtn = document.getElementById('chat-toggle');
   const closeBtn = document.getElementById('chat-close');
-  const messages = document.getElementById('chat-messages');
-  const input = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
-  const suggestions = document.getElementById('chat-suggestions');
 
   // Monochrome icon on the nav button (replaces the emoji in the markup)
   if (toggleBtn) {
@@ -641,71 +637,97 @@ function setupChat() {
     toggleBtn.append(createIcon('sparkle', 16), 'Pamudu AI');
   }
 
-  if (!widget || !messages || !input || !sendBtn) return;
+  if (!widget) return;
 
-  const API_URL = "https://virtual-pamudu-git-main-pamudu-ranasinghes-projects.vercel.app";
+  // The conversation itself is the Virtual Pamudu app (a deepagents agent
+  // streamed over AG-UI, with a CopilotKit UI), shown here in an iframe.
+  // Source: https://github.com/pamudu123/virtual-pamudu
+  const isLocal = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  const CHAT_URL = isLocal
+    ? 'http://localhost:3000/embed'
+    : 'https://virtual-pamudu.vercel.app/embed';
 
-  // Session ID from localStorage (will be created on first message)
-  let sessionId = localStorage.getItem('chatSessionId');
+  // Every page still ships the markup of the old built-in chat. Replace it.
+  widget
+    .querySelectorAll('#chat-messages, #chat-suggestions, .chat-input-area')
+    .forEach((el) => el.remove());
+  ['chatSessionId', 'chatMessages'].forEach((key) => localStorage.removeItem(key));
 
-  // Create session from backend
-  async function createSession() {
-    try {
-      const res = await fetch(`${API_URL}/sessions`, { method: "POST" });
-      const data = await res.json();
-      sessionId = data.session_id;
-      localStorage.setItem('chatSessionId', sessionId);
-      return sessionId;
-    } catch (error) {
-      console.error("Failed to create session:", error);
-      return null;
+  const frame = document.createElement('iframe');
+  frame.id = 'chat-frame';
+  frame.className = 'chat-frame';
+  frame.title = 'Pamudu AI chat';
+  frame.setAttribute('allow', 'clipboard-write');
+  widget.appendChild(frame);
+
+  // Load the app only once the panel is first opened.
+  let frameLoaded = false;
+  function loadFrame() {
+    if (frameLoaded) return;
+    frame.src = CHAT_URL;
+    frameLoaded = true;
+  }
+
+  function toggleChat(forceOpen) {
+    const open = typeof forceOpen === 'boolean' ? forceOpen : !widget.classList.contains('open');
+    widget.classList.toggle('open', open);
+    document.body.classList.toggle('chat-open', open);
+    if (open) {
+      localStorage.setItem('chatOpen', 'true');
+      loadFrame();
+    } else {
+      localStorage.removeItem('chatOpen');
     }
   }
 
   // Restore state
-  const isChatOpen = localStorage.getItem('chatOpen') === 'true';
-  const savedMessages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+  if (localStorage.getItem('chatOpen') === 'true') toggleChat(true);
 
-  if (isChatOpen) {
-    widget.classList.add('open');
-    document.body.classList.add('chat-open');
-    if (savedMessages.length > 0) {
-      messages.innerHTML = '';
-      savedMessages.forEach(msg => addMessage(msg.text, msg.sender, false, false));
-    }
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleChat();
+    });
   }
-
-  // Event Listeners
-  if (toggleBtn) toggleBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    toggleChat();
-  });
-
   if (closeBtn) closeBtn.addEventListener('click', () => toggleChat(false));
 
-  // New Chat Button
+  // New Chat: reloading the app starts a fresh conversation.
   const newChatBtn = document.getElementById('chat-new');
   if (newChatBtn) {
-    newChatBtn.addEventListener('click', async () => {
-      // Clear messages
-      messages.innerHTML = `
-        <div class="message bot">
-          <div class="message-content">Hey there! 👋 I'm Pamudu's AI assistant. Ask me anything about his work, projects, or experience!</div>
-        </div>
-      `;
-      // Create new session from backend
-      localStorage.removeItem('chatSessionId');
-      sessionId = null;
-      localStorage.removeItem('chatMessages');
-      input.focus();
+    newChatBtn.addEventListener('click', () => {
+      frameLoaded = true;
+      frame.src = CHAT_URL;
     });
   }
 
-  // Info Popup Toggle
+  // Info popup
   const infoBtn = document.getElementById('chat-info-btn');
   const infoPopup = document.getElementById('chat-info-popup');
 
   if (infoBtn && infoPopup) {
+    infoBtn.textContent = '2.0';
+    infoPopup.innerHTML = `
+      <div class="popup-title">Pamudu AI 2.0</div>
+      <div class="popup-tagline">Rebuilt from the ground up ✨</div>
+      <div class="popup-section">
+        <div class="popup-label">What's new:</div>
+        <ul>
+          <li>Answers stream in as they are written. <span class="new-badge">NEW</span></li>
+          <li>Projects, articles, videos and experience shown as cards. <span class="new-badge">NEW</span></li>
+          <li>It can ask you a question to tailor the answer. <span class="new-badge">NEW</span></li>
+          <li>Follow-up question suggestions.</li>
+        </ul>
+      </div>
+      <div class="popup-section">
+        <div class="popup-label">Under the hood:</div>
+        <ul>
+          <li>Deep agent with sub-agents for code and content research.</li>
+          <li>Live data from GitHub, Medium and YouTube.</li>
+          <li>Send Pamudu a message, with your review before it goes.</li>
+        </ul>
+      </div>
+    `;
+
     infoBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       infoPopup.classList.toggle('show');
@@ -717,270 +739,5 @@ function setupChat() {
         infoPopup.classList.remove('show');
       }
     });
-  }
-
-  sendBtn.addEventListener('click', () => sendMessage());
-  input.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
-
-  // Suggestion Chips
-  if (suggestions) {
-    suggestions.querySelectorAll('.suggestion-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const text = chip.textContent;
-        input.value = text;
-        sendMessage();
-      });
-    });
-  }
-
-  function toggleChat(forceOpen) {
-    if (typeof forceOpen === 'boolean') {
-      if (forceOpen) {
-        widget.classList.add('open');
-        document.body.classList.add('chat-open');
-        localStorage.setItem('chatOpen', 'true');
-        setTimeout(() => input.focus(), 100);
-      } else {
-        widget.classList.remove('open');
-        document.body.classList.remove('chat-open');
-        localStorage.removeItem('chatOpen');
-      }
-    } else {
-      if (widget.classList.contains('open')) {
-        toggleChat(false);
-      } else {
-        toggleChat(true);
-      }
-    }
-  }
-
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
-
-    input.value = '';
-    addMessage(text, 'user');
-
-    input.disabled = true;
-    sendBtn.disabled = true;
-
-    const botMsgId = addMessage('', 'bot', true);
-    const botMsgEl = document.getElementById(botMsgId);
-    const contentEl = botMsgEl.querySelector('.message-content');
-
-    try {
-      // Ensure we have a session
-      if (!sessionId) {
-        contentEl.innerHTML = `<div class="thinking-indicator"><div class="spinner"></div><span>Creating session...</span></div>`;
-        sessionId = await createSession();
-        if (!sessionId) {
-          throw new Error("Failed to create session");
-        }
-      }
-
-      contentEl.innerHTML = `<div class="thinking-indicator"><div class="spinner"></div><span>Thinking...</span></div>`;
-
-      const response = await fetch(`${API_URL}/chat/stream`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id: sessionId, message: text })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let fullAnswer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n\n");
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            try {
-              const eventData = JSON.parse(line.slice(6));
-
-              if (eventData.type === "status") {
-                contentEl.innerHTML = `
-                  <div class="thinking-indicator">
-                    <div class="spinner"></div>
-                    <span>${eventData.message}</span>
-                  </div>
-                `;
-              } else if (eventData.type === "result") {
-                fullAnswer = eventData.answer || "";
-                let html = renderResponse(fullAnswer);
-
-                // Render citations if present
-                if (eventData.citations && eventData.citations.length > 0) {
-                  html += renderCitations(eventData.citations);
-                }
-
-                contentEl.innerHTML = html;
-
-                // Update suggestion chips with suggested questions (max 3)
-                if (eventData.suggested_questions && eventData.suggested_questions.length > 0) {
-                  updateSuggestionChips(eventData.suggested_questions.slice(0, 3));
-                }
-              }
-            } catch (e) {
-              console.error("Error parsing event:", e);
-            }
-          }
-        }
-        messages.scrollTop = messages.scrollHeight;
-      }
-
-      saveChatState();
-
-    } catch (err) {
-      console.error(err);
-      contentEl.textContent = "Sorry, I couldn't reach the backend. Please try again later.";
-      contentEl.style.color = "red";
-    } finally {
-      // Re-enable input
-      input.disabled = false;
-      sendBtn.disabled = false;
-      input.focus();
-      // Ensure specific typing indicator is gone if we finished
-      if (contentEl.innerHTML.includes("thinking-indicator") && contentEl.textContent.trim().length === 0) {
-        contentEl.textContent = "No response received.";
-      }
-    }
-  }
-
-  function addMessage(text, sender, isLoading = false, save = true) {
-    const div = document.createElement('div');
-    div.className = `message ${sender}`;
-    div.id = 'msg-' + Math.random().toString(36).substr(2, 9);
-
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-
-    if (isLoading) {
-      contentDiv.innerHTML = `
-            <div class="thinking-indicator">
-                <div class="spinner"></div>
-                <span>Thinking...</span>
-            </div>
-       `;
-    } else {
-      contentDiv.textContent = text;
-      // If validating Markdown for restored messages, we might need to re-render:
-      if (sender === 'bot') {
-        contentDiv.innerHTML = renderResponse(text);
-      }
-    }
-
-    div.appendChild(contentDiv);
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-
-    if (save && !isLoading) {
-      saveChatState();
-    }
-    return div.id;
-  }
-
-  function renderResponse(text) {
-    // 1. Markdown rendering
-    let html = window.marked ? window.marked.parse(text) : text;
-
-    // 2. Citation rendering (e.g. [📄 Resume])
-    // Regex looking for brackets with emoji or text
-    // We'll trust the bot to format loosely like [📄 Source Name]
-    html = html.replace(/\[(📄|🐙|🔗|video)\s?([^\]]+)\]/g, (match, icon, name) => {
-      return `<a href="#" class="citation-chip" onclick="return false;">${icon} ${name}</a>`;
-    });
-
-    return html;
-  }
-
-  function updateSuggestionChips(suggestedQuestions) {
-    if (!suggestions) return;
-
-    // Clear existing chips
-    suggestions.innerHTML = '';
-
-    // Add new chips (max 3, but slice is already done before calling)
-    suggestedQuestions.forEach(question => {
-      const chip = document.createElement('button');
-      chip.className = 'suggestion-chip';
-      chip.textContent = question;
-      chip.addEventListener('click', () => {
-        input.value = question;
-        sendMessage();
-      });
-      suggestions.appendChild(chip);
-    });
-
-    // Show suggestions container
-    suggestions.style.display = 'flex';
-  }
-
-  function renderCitations(citations) {
-    if (!citations || citations.length === 0) return '';
-
-    const getIcon = (sourceType) => {
-      switch (sourceType) {
-        case 'github': return '🐙';
-        case 'brain': return '📄';
-        case 'url': return '🔗';
-        default: return '📄';
-      }
-    };
-
-    let html = '<div class="citations-container">';
-    citations.forEach(citation => {
-      const icon = getIcon(citation.source_type);
-      // Remove file extensions from source name
-      let name = citation.source_name || 'Source';
-      name = name.replace(/\.(md|yaml|yml|txt)$/i, '');
-
-      const url = citation.url || '';
-      const sourceType = citation.source_type || '';
-
-      // Make clickable only if it has a URL and is not a brain/local file source
-      if (url && sourceType !== 'brain') {
-        html += `<a href="${url}" target="_blank" class="citation-chip citation-link">${icon} ${name}</a>`;
-      } else {
-        html += `<span class="citation-chip">${icon} ${name}</span>`;
-      }
-    });
-    html += '</div>';
-
-    return html;
-  }
-
-  function saveChatState() {
-    const msgs = [];
-    const msgDivs = messages.querySelectorAll('.message');
-    msgDivs.forEach(div => {
-      // access the text content or innerHTML depending on complexity
-      // For simplicity in this demo, let's grab the raw text if possible, 
-      // but since we store markdown, we should ideally store the raw source.
-      // However, we are only extracting from DOM.
-      // To properly support history, we'd need to store the raw "fullAnswer" string in a data attribute.
-      // For now, we'll just save the innerHTML which is okay for display-only history.
-      const contentEl = div.querySelector('.message-content');
-      const isUser = div.classList.contains('user');
-      // We skip the thinking/loading content
-      if (contentEl.querySelector('.thinking-indicator')) return;
-
-      msgs.push({
-        text: isUser ? contentEl.textContent : contentEl.innerHTML, // Store HTML for bot to preserve markdown on restore
-        sender: isUser ? 'user' : 'bot'
-      });
-    });
-    // Filter out welcome message duplicate if needed, but array should be fine
-    localStorage.setItem('chatMessages', JSON.stringify(msgs));
   }
 }
