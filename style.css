@@ -422,6 +422,45 @@ body[data-page="me"] .section>p {
   font-weight: 600;
 }
 
+/* A band of light that slides across the button, then rests.
+   It stops while the panel is open, on hover, and for reduced-motion users. */
+.chat-toggle-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-toggle-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(0, 0, 0, 0.13) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: chat-toggle-shine 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes chat-toggle-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  45%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.chat-toggle-btn:hover::after,
+body.chat-open .chat-toggle-btn::after {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-toggle-btn::after {
+    animation: none;
+  }
+}
+
 .chat-widget {
   position: fixed;
   top: 0;
