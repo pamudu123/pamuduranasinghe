@@ -3,10 +3,10 @@ const CV_DATA = {
   title: 'Lead AI Engineer',
   headline: 'AI generalist across NLP, computer vision, audio, and embedded ML delivering products used by millions.',
   contacts: [
-    { label: 'LinkedIn', value: 'LinkedIn (for the professional stuff)', link: 'https://www.linkedin.com/in/pamudu-ranasinghe/' },
-    { label: 'YouTube', value: 'YouTube (for visual demos)', link: 'https://www.youtube.com/@pamudu123ranasinghe7' },
-    { label: 'Google Scholar', value: 'Google Scholar (for the deep dives)', link: 'https://scholar.google.com/citations?user=v1CeOs0AAAAJ&hl=en' },
-    { label: 'Email', value: 'Email (for everything else!)', link: 'mailto:pamuduranasinghe9@gmail.com' }
+    { label: 'LinkedIn', icon: 'linkedin', value: 'LinkedIn (for the professional stuff)', link: 'https://www.linkedin.com/in/pamudu-ranasinghe/' },
+    { label: 'YouTube', icon: 'youtube', value: 'YouTube (for visual demos)', link: 'https://www.youtube.com/@pamudu123ranasinghe7' },
+    { label: 'Google Scholar', icon: 'cap', value: 'Google Scholar (for the deep dives)', link: 'https://scholar.google.com/citations?user=v1CeOs0AAAAJ&hl=en' },
+    { label: 'Email', icon: 'mail', value: 'Email (for everything else!)', link: 'mailto:pamuduranasinghe9@gmail.com' }
   ],
   summary: [
     { title: 'Hi there! 👋', content: 'Hi, I’m Pamudu. I’m a Lead AI Engineer who loves turning complex code into practical innovations. Proudly exploring the world of tech from the beautiful island of Sri Lanka 🇱🇰.' },
@@ -313,7 +313,12 @@ const ICONS = {
   trophy: '<path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5a3 3 0 0 0 3 4"/><path d="M16 6h3a3 3 0 0 1-3 4"/><path d="M12 14v7"/><path d="M8 21h8"/>',
   star: '<path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3z"/>',
   target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
-  sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 16v4"/><path d="M17 18h4"/>'
+  linkedin: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 11v6"/><path d="M8 7.5v.01"/><path d="M12 17v-6"/><path d="M12 13.5a2.5 2.5 0 0 1 5 0V17"/>',
+  youtube: '<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.2v5.6l5-2.8-5-2.8z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/>',
+  sparkle: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 16v4"/><path d="M17 18h4"/>',
+  plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
+  close: '<path d="M6 6l12 12"/><path d="M18 6L6 18"/>'
 };
 
 function createIcon(name, size = 22) {
@@ -396,9 +401,10 @@ function renderCV(data) {
   helloSection.appendChild(connectHeader);
 
   const contacts = document.createElement('ul');
-  contacts.className = 'link-list';
+  contacts.className = 'link-list icon-list';
   data.contacts.forEach((item) => {
     const li = document.createElement('li');
+    if (item.icon) li.appendChild(createIcon(item.icon, 18));
     const a = document.createElement('a');
     a.href = item.link || '#';
     a.textContent = item.value;
@@ -629,7 +635,7 @@ function renderJournal(items) {
 function setupChat() {
   const widget = document.getElementById('chat-widget');
   const toggleBtn = document.getElementById('chat-toggle');
-  const closeBtn = document.getElementById('chat-close');
+  let closeBtn = document.getElementById('chat-close');
 
   // Monochrome icon on the nav button (replaces the emoji in the markup)
   if (toggleBtn) {
@@ -638,6 +644,30 @@ function setupChat() {
   }
 
   if (!widget) return;
+
+  // Panel header in the site's black and white: line icons instead of the
+  // bot image, a labelled New chat button, and a close button (on phones the
+  // panel covers the nav, so it needs its own way out).
+  const avatar = widget.querySelector('.chat-avatar');
+  if (avatar) avatar.replaceWith(createIcon('sparkle', 22));
+
+  const newBtn = document.getElementById('chat-new');
+  if (newBtn) {
+    newBtn.textContent = '';
+    newBtn.append(createIcon('plus', 16), 'New chat');
+  }
+
+  const controls = widget.querySelector('.chat-controls');
+  if (!closeBtn && controls) {
+    closeBtn = document.createElement('button');
+    closeBtn.id = 'chat-close';
+    closeBtn.type = 'button';
+    closeBtn.className = 'chat-close-btn';
+    closeBtn.title = 'Close';
+    closeBtn.setAttribute('aria-label', 'Close chat');
+    closeBtn.appendChild(createIcon('close', 18));
+    controls.appendChild(closeBtn);
+  }
 
   // The conversation itself is the Virtual Pamudu app (a deepagents agent
   // streamed over AG-UI, with a CopilotKit UI), shown here in an iframe.
@@ -671,6 +701,9 @@ function setupChat() {
   function toggleChat(forceOpen) {
     const open = typeof forceOpen === 'boolean' ? forceOpen : !widget.classList.contains('open');
     widget.classList.toggle('open', open);
+    // Line the panel header up with the site nav.
+    const nav = document.querySelector('nav');
+    if (open && nav) widget.style.setProperty('--chat-header-height', `${nav.offsetHeight}px`);
     document.body.classList.toggle('chat-open', open);
     if (open) {
       localStorage.setItem('chatOpen', 'true');
@@ -690,6 +723,9 @@ function setupChat() {
     });
   }
   if (closeBtn) closeBtn.addEventListener('click', () => toggleChat(false));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && widget.classList.contains('open')) toggleChat(false);
+  });
 
   // New Chat: reloading the app starts a fresh conversation.
   const newChatBtn = document.getElementById('chat-new');
@@ -708,7 +744,6 @@ function setupChat() {
     infoBtn.textContent = '2.0';
     infoPopup.innerHTML = `
       <div class="popup-title">Pamudu AI 2.0</div>
-      <div class="popup-tagline">Rebuilt from the ground up ✨</div>
       <div class="popup-section">
         <div class="popup-label">What's new:</div>
         <ul>
@@ -721,7 +756,6 @@ function setupChat() {
       <div class="popup-section">
         <div class="popup-label">Under the hood:</div>
         <ul>
-          <li>Deep agent with sub-agents for code and content research.</li>
           <li>Live data from GitHub, Medium and YouTube.</li>
           <li>Send Pamudu a message, with your review before it goes.</li>
         </ul>
@@ -733,11 +767,13 @@ function setupChat() {
       infoPopup.classList.toggle('show');
     });
 
-    // Close popup when clicking anywhere else
+    // Close the popup on any click: on the popup itself or anywhere else
     document.addEventListener('click', (e) => {
-      if (!infoPopup.contains(e.target) && e.target !== infoBtn) {
-        infoPopup.classList.remove('show');
-      }
+      if (e.target !== infoBtn) infoPopup.classList.remove('show');
     });
+
+    // Clicks inside the chat iframe never reach this page; they show up as
+    // the window losing focus instead.
+    window.addEventListener('blur', () => infoPopup.classList.remove('show'));
   }
 }
