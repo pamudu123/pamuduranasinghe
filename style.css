@@ -308,9 +308,19 @@ footer {
 
 .icon-list li {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0 0.6rem;
   padding: 0.15rem 0;
+}
+
+.copy-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.copy-note:empty {
+  display: none;
 }
 
 .with-icon {

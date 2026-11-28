@@ -407,6 +407,27 @@ function renderCV(data) {
     a.textContent = item.value;
     if ((item.link || '').startsWith('http')) a.target = '_blank';
     li.appendChild(a);
+
+    // A mailto link does nothing on a computer with no mail app set up, so
+    // clicking also copies the address and shows it next to the link.
+    if ((item.link || '').startsWith('mailto:')) {
+      const address = item.link.slice('mailto:'.length);
+      const note = document.createElement('span');
+      note.className = 'copy-note';
+      note.setAttribute('role', 'status');
+      li.appendChild(note);
+      a.addEventListener('click', () => {
+        const show = (text) => { note.textContent = text; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(address).then(
+            () => show(`Copied: ${address}`),
+            () => show(address)
+          );
+        } else {
+          show(address);
+        }
+      });
+    }
     contacts.appendChild(li);
   });
   helloSection.appendChild(contacts);
