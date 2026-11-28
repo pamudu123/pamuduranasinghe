@@ -9,7 +9,7 @@ const CV_DATA = {
     { label: 'Email', icon: 'mail', value: 'Email (for everything else!)', link: 'mailto:pamuduranasinghe9@gmail.com' }
   ],
   summary: [
-    { title: 'Hi there! 👋', content: 'Hi, I’m Pamudu. I’m a Lead AI Engineer who loves turning complex code into practical innovations. Proudly exploring the world of tech from the beautiful island of Sri Lanka 🇱🇰.' },
+    { title: 'Hello World!', greeting: 'Hi, I’m Pamudu.', content: 'I’m a Lead AI Engineer who loves turning complex code into practical innovations. Proudly exploring the world of tech from the beautiful island of Sri Lanka 🇱🇰.' },
     { title: 'What I Do', icon: 'laptop', content: 'I’m passionate about teaching machines to see, hear, and think—specializing in Natural Language Processing, Computer Vision, and Audio Signal Analysis. With over four years of experience building machine learning solutions, my work supports millions of users across different products.' },
     { title: 'Beyond the Code', icon: 'pawn', content: 'I had the honor of representing Team Sri Lanka at the Asian University Chess Championship and earned University Colors for my performance. It turns out, strategizing moves on the board is great training for AI architecture—both require patience, pattern recognition, and knowing exactly when to make a sacrifice for the win!' }
   ],
@@ -346,29 +346,26 @@ function renderCV(data) {
 
   container.innerHTML = '';
 
-  // Hero (text only)
-  const hero = document.createElement('header');
-  hero.className = 'hero';
-  const eyebrow = document.createElement('p');
-  eyebrow.className = 'eyebrow';
-  eyebrow.textContent = data.title;
-  const heroName = document.createElement('h1');
-  heroName.textContent = data.name;
-  const lede = document.createElement('p');
-  lede.className = 'lede';
-  lede.textContent = data.headline;
-  hero.append(eyebrow, heroName, lede);
-  container.appendChild(hero);
+  // Intro section. Its hero is the greeting itself: the name is already in
+  // the nav and the job title is in the intro sentence, so neither repeats.
+  const helloSection = document.createElement('section');
+  helloSection.className = 'section';
 
-  // Hello World Section (Summary)
-  const helloSection = createSection('Hello World!', 'globe');
-
-  // Intro (First summary item)
   if (data.summary.length > 0) {
-    const p = document.createElement('p');
-    p.textContent = data.summary[0].content;
-    p.style.marginBottom = '1.5rem';
-    helloSection.appendChild(p);
+    const intro = data.summary[0];
+    const hero = document.createElement('header');
+    hero.className = 'hero';
+    const eyebrow = document.createElement('p');
+    eyebrow.className = 'eyebrow with-icon';
+    eyebrow.textContent = intro.title;
+    eyebrow.appendChild(createIcon('globe', 14));
+    const greeting = document.createElement('h1');
+    greeting.textContent = intro.greeting;
+    const lede = document.createElement('p');
+    lede.className = 'lede';
+    lede.textContent = intro.content;
+    hero.append(eyebrow, greeting, lede);
+    helloSection.appendChild(hero);
   }
 
   // Other Summary Sections

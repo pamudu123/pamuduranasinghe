@@ -367,9 +367,8 @@ footer {
 /* --- About page only: hero --- */
 
 body[data-page="me"] .hero {
-  padding: 1.5rem 0 2.5rem;
-  margin-bottom: 2.75rem;
-  border-bottom: 1px solid var(--border);
+  padding-top: 1.5rem;
+  margin-bottom: 2.25rem;
 }
 
 body[data-page="me"] .hero h1 {
@@ -381,8 +380,8 @@ body[data-page="me"] .hero h1 {
 
 body[data-page="me"] .hero .lede {
   font-size: 1.2rem;
-  line-height: 1.5;
-  max-width: 34rem;
+  line-height: 1.55;
+  max-width: 40rem;
   margin-bottom: 0;
 }
 
