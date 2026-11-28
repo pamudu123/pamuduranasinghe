@@ -765,7 +765,7 @@ function setupChat() {
       <div class="popup-section">
         <div class="popup-label">What's new:</div>
         <ul>
-          <li>Answers stream in as they are written. <span class="new-badge">NEW</span></li>
+          <li>Faster answers that appear as they're written. <span class="new-badge">NEW</span></li>
           <li>Projects, articles, videos and experience shown as cards. <span class="new-badge">NEW</span></li>
           <li>It can ask you a question to tailor the answer. <span class="new-badge">NEW</span></li>
           <li>Follow-up question suggestions.</li>
@@ -778,6 +778,7 @@ function setupChat() {
           <li>Send Pamudu a message, with your review before it goes.</li>
         </ul>
       </div>
+      <p class="popup-note">Runs on free-tier services, so replies may sometimes take a little longer.</p>
     `;
 
     infoBtn.addEventListener('click', (e) => {

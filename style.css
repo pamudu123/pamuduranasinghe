@@ -648,6 +648,15 @@ body.chat-open nav {
   margin-bottom: 0;
 }
 
+.popup-note {
+  margin-top: 0.9rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .popup-label {
   font-weight: 600;
   font-size: 0.7rem;
